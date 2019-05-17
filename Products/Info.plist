@@ -28,6 +28,16 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Requieres access to Camara to Scan product barcodes </string>
+	<key>NSHumanReadableCopyright</key>
+	<string>@2019 by Patricio Benavente</string>
+	<key>NSPersistentStoreTypeKey</key>
+	<string>SQLite</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Requieres access to Location while using the app</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.business</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
