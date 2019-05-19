@@ -13,7 +13,7 @@
         <!--Point of Sale-->
         <scene sceneID="1AT-HA-TIN">
             <objects>
-                <viewController id="qQm-WT-MSl" customClass="ScanProductViewController" customModule="Products" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="qQm-WT-MSl" customClass="ScanViewController" customModule="Products" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dZB-fm-WPS">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -23,7 +23,7 @@
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scanning Bar Code…" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CfP-do-bUt">
-                                <rect key="frame" x="8" y="569" width="359" height="39"/>
+                                <rect key="frame" x="8" y="570" width="359" height="39"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="39" id="3JD-Su-Ks2"/>
                                 </constraints>
@@ -35,12 +35,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="SAX-ad-hcV" secondAttribute="trailing" id="0v0-XL-lBf"/>
-                            <constraint firstItem="CfP-do-bUt" firstAttribute="top" secondItem="SAX-ad-hcV" secondAttribute="bottom" constant="-49" id="2Ho-4f-byH"/>
+                            <constraint firstItem="CfP-do-bUt" firstAttribute="top" secondItem="SAX-ad-hcV" secondAttribute="bottom" constant="-48" id="2Ho-4f-byH"/>
                             <constraint firstItem="NHw-57-Vkt" firstAttribute="trailing" secondItem="CfP-do-bUt" secondAttribute="trailing" constant="8" id="Cex-sR-HVA"/>
                             <constraint firstItem="SAX-ad-hcV" firstAttribute="leading" secondItem="dZB-fm-WPS" secondAttribute="leading" id="Cff-8I-4qF"/>
                             <constraint firstItem="SAX-ad-hcV" firstAttribute="bottom" secondItem="NHw-57-Vkt" secondAttribute="bottom" id="ECb-U1-98a"/>
                             <constraint firstItem="CfP-do-bUt" firstAttribute="leading" secondItem="SAX-ad-hcV" secondAttribute="trailing" constant="-367" id="Odv-q6-mSj"/>
-                            <constraint firstItem="NHw-57-Vkt" firstAttribute="bottom" secondItem="CfP-do-bUt" secondAttribute="bottom" constant="10" id="U9f-og-map"/>
+                            <constraint firstItem="NHw-57-Vkt" firstAttribute="bottom" secondItem="CfP-do-bUt" secondAttribute="bottom" constant="9" id="U9f-og-map"/>
                             <constraint firstItem="SAX-ad-hcV" firstAttribute="top" secondItem="NHw-57-Vkt" secondAttribute="top" id="Z5h-mI-Y9y"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="NHw-57-Vkt"/>
@@ -52,18 +52,29 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
-                        <outlet property="messageLabel" destination="CfP-do-bUt" id="8nz-VR-xLT"/>
-                        <outlet property="previewLayer" destination="SAX-ad-hcV" id="QfN-iW-cpX"/>
-                        <outlet property="previewVideo" destination="SAX-ad-hcV" id="gAj-cQ-2uq"/>
-                        <outlet property="previwLayer" destination="SAX-ad-hcV" id="TNo-QI-x8g"/>
-                        <outlet property="square" destination="SAX-ad-hcV" id="uBd-cB-831"/>
-                        <outlet property="txtCodeDetected" destination="CfP-do-bUt" id="BLM-SX-IXl"/>
-                        <outlet property="videoPreview" destination="SAX-ad-hcV" id="TQk-ed-Xkc"/>
+                        <outlet property="messageLabel" destination="CfP-do-bUt" id="IYt-VT-ueZ"/>
+                        <outlet property="videoPreview" destination="SAX-ad-hcV" id="iGh-yR-tYy"/>
+                        <segue destination="PP0-Dc-eJQ" kind="show" identifier="segueAddProduct" id="eh0-gh-kyo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xJV-2t-b0i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-36" y="-1377.6611694152925"/>
+        </scene>
+        <!--Add Product to Basket-->
+        <scene sceneID="rkM-rx-iM4">
+            <objects>
+                <viewController title="Add Product to Basket" id="PP0-Dc-eJQ" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="jeW-N6-R5H">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="4NE-wn-ujl"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="D4b-hk-CW6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="788" y="-1378"/>
         </scene>
         <!--Inventory-->
         <scene sceneID="YP5-hT-fQ3">

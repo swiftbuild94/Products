@@ -41,6 +41,7 @@
 			do {
 				try contextProduct.save()
 				print("Saved Product: \(product)")
+				dismiss(animated: true, completion: nil)
 			}catch{
 				print("Error Saving")
 			}

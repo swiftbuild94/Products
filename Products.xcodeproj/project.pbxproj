@@ -19,6 +19,7 @@
 		0E5DE2F52287E43700EECEEA /* ScanProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5DE2F42287E43600EECEEA /* ScanProductViewController.swift */; };
 		0EA9420A226FACC5003B3595 /* ProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA94209226FACC1003B3595 /* ProductsViewController.swift */; };
 		0EA9420C226FB44A003B3595 /* ProductsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA9420B226FB448003B3595 /* ProductsTableViewController.swift */; };
+		0EBC4CC02290FCF200F63042 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBC4CBF2290FCF200F63042 /* ScanViewController.swift */; };
 		0EE32448226A787800DDE74C /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE32447226A787800DDE74C /* UserViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +59,7 @@
 		0E5DE2F42287E43600EECEEA /* ScanProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanProductViewController.swift; sourceTree = "<group>"; };
 		0EA94209226FACC1003B3595 /* ProductsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewController.swift; sourceTree = "<group>"; };
 		0EA9420B226FB448003B3595 /* ProductsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsTableViewController.swift; sourceTree = "<group>"; };
+		0EBC4CBF2290FCF200F63042 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScanViewController.swift; path = Controller/ScanViewController.swift; sourceTree = SOURCE_ROOT; };
 		0EE32447226A787800DDE74C /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -151,6 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				0EA94209226FACC1003B3595 /* ProductsViewController.swift */,
+				0EBC4CBF2290FCF200F63042 /* ScanViewController.swift */,
 				0EE32447226A787800DDE74C /* UserViewController.swift */,
 				0E5DE2EB2287ABB400EECEEA /* ProductViewController.swift */,
 				0E5DE2F42287E43600EECEEA /* ScanProductViewController.swift */,
@@ -298,6 +301,7 @@
 				0E1E2C172248538300D3F833 /* Products.xcdatamodeld in Sources */,
 				0EA9420A226FACC5003B3595 /* ProductsViewController.swift in Sources */,
 				0E5DE2F52287E43700EECEEA /* ScanProductViewController.swift in Sources */,
+				0EBC4CC02290FCF200F63042 /* ScanViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
