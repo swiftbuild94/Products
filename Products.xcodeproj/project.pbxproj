@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E170C4122B5F39E001B5D02 /* CamaraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E170C4022B5F39E001B5D02 /* CamaraController.swift */; };
 		0E1E2C0F2248538200D3F833 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1E2C0E2248538200D3F833 /* AppDelegate.swift */; };
 		0E1E2C112248538200D3F833 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1E2C102248538200D3F833 /* ViewController.swift */; };
 		0E1E2C142248538200D3F833 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E1E2C122248538200D3F833 /* Main.storyboard */; };
@@ -14,7 +15,6 @@
 		0E1E2C19224853A700D3F833 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E1E2C18224853A700D3F833 /* Assets.xcassets */; };
 		0E1E2C1C224853A700D3F833 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E1E2C1A224853A700D3F833 /* LaunchScreen.storyboard */; };
 		0E21DECE22AC73630049B7AC /* ScanForNewProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E21DECD22AC73630049B7AC /* ScanForNewProductViewController.swift */; };
-		0E47E5D922B5CEDB000BC8F8 /* ScanNewProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E47E5D822B5CEDA000BC8F8 /* ScanNewProduct.swift */; };
 		0E5372CB229FC2F000BA79ED /* StockTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5372CA229FC2EF00BA79ED /* StockTableViewController.swift */; };
 		0E5DE2EC2287ABB500EECEEA /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5DE2EB2287ABB400EECEEA /* ProductViewController.swift */; };
 		0E7CE96C229CB293001BAA0A /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7CE96B229CB293001BAA0A /* CoreDataManager.swift */; };
@@ -46,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0E170C4022B5F39E001B5D02 /* CamaraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamaraController.swift; sourceTree = "<group>"; };
 		0E1E2C0B2248538200D3F833 /* Products.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Products.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E1E2C0E2248538200D3F833 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0E1E2C102248538200D3F833 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -57,7 +58,6 @@
 		0E1E2C22224853A800D3F833 /* ProductsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProductsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E1E2C2D224853A800D3F833 /* ProductsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProductsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E21DECD22AC73630049B7AC /* ScanForNewProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanForNewProductViewController.swift; sourceTree = "<group>"; };
-		0E47E5D822B5CEDA000BC8F8 /* ScanNewProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanNewProduct.swift; sourceTree = "<group>"; };
 		0E5372CA229FC2EF00BA79ED /* StockTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockTableViewController.swift; sourceTree = "<group>"; };
 		0E5DE2EB2287ABB400EECEEA /* ProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
 		0E7CE96B229CB293001BAA0A /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -144,12 +144,12 @@
 		0E5DE2F32287B4AE00EECEEA /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				0E170C4022B5F39E001B5D02 /* CamaraController.swift */,
 				0E5372CA229FC2EF00BA79ED /* StockTableViewController.swift */,
 				0EFBB35A229E422800B2979F /* AddProductToBasketViewController.swift */,
 				0E21DECD22AC73630049B7AC /* ScanForNewProductViewController.swift */,
 				0EA94209226FACC1003B3595 /* ProductsViewController.swift */,
 				0EBC4CBF2290FCF200F63042 /* ScanViewController.swift */,
-				0E47E5D822B5CEDA000BC8F8 /* ScanNewProduct.swift */,
 				0EE32447226A787800DDE74C /* UserViewController.swift */,
 				0E5DE2EB2287ABB400EECEEA /* ProductViewController.swift */,
 				0EA9420B226FB448003B3595 /* ProductsTableViewController.swift */,
@@ -297,13 +297,13 @@
 				0E5DE2EC2287ABB500EECEEA /* ProductViewController.swift in Sources */,
 				0E21DECE22AC73630049B7AC /* ScanForNewProductViewController.swift in Sources */,
 				0E1E2C0F2248538200D3F833 /* AppDelegate.swift in Sources */,
+				0E170C4122B5F39E001B5D02 /* CamaraController.swift in Sources */,
 				0E5372CB229FC2F000BA79ED /* StockTableViewController.swift in Sources */,
 				0E1E2C172248538300D3F833 /* Products.xcdatamodeld in Sources */,
 				0E7CE96C229CB293001BAA0A /* CoreDataManager.swift in Sources */,
 				0EA9420A226FACC5003B3595 /* ProductsViewController.swift in Sources */,
 				0EBC4CC02290FCF200F63042 /* ScanViewController.swift in Sources */,
 				0EF6B59622A379D500E596C0 /* Product+CoreDataClass.swift in Sources */,
-				0E47E5D922B5CEDB000BC8F8 /* ScanNewProduct.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

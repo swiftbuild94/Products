@@ -1,5 +1,5 @@
 //
-//  ScanNewProductViewController.swift
+//  CamaraController.swift
 //  Products
 //
 //  Created by Patricio Benavente on 18/05/19.
@@ -9,11 +9,12 @@
 import UIKit
 import AVFoundation
 
-class ScanNewProductViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
+class CamaraController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
 	
 	@IBOutlet weak var messageLabel: UILabel!
 	
 	@IBOutlet var qrCodeFrameView: UIView!
+	
 	
 	var stringCode: String?
 	var foundCode: Bool = false
@@ -22,36 +23,8 @@ class ScanNewProductViewController: UIViewController, AVCaptureMetadataOutputObj
 	let avCaptureSession = AVCaptureSession()
 	var qrCodeFrame: UIView!
 	
-	private enum error {
-		case noCamaraAvailable
-		case videoInputInitFail
-	}
 	
 	private let supportedCodeTypes: [AVMetadataObject.ObjectType] = [.upce, .code39, .code39Mod43, .code93, .code128, .ean8, .ean13, .aztec, .pdf417, .itf14, .dataMatrix, .interleaved2of5, .qr]
-	
-	private func authorizeCamara()->Bool {
-		var authorized = false
-		switch AVCaptureDevice.authorizationStatus(for: .video) {
-		case .authorized: // The user has previously granted access to the camera.
-			self.scanCode()
-			authorized = true
-		case .notDetermined: // The user has not yet been asked for camera access.
-			AVCaptureDevice.requestAccess(for: .video) { granted in
-				if granted {
-					self.scanCode()
-					authorized = true
-				}else{
-					authorized = false
-				}
-			}
-		case .denied: // The user has previously denied access.
-			authorized = false
-		case .restricted: // The user can't grant access due to restrictions.
-			authorized = false
-		}
-		print("Camara Authorized: \(authorized)")
-		return authorized
-	}
 	
 	private func scanCode() {
 		guard let avCaptureDevice = AVCaptureDevice.default(for: AVMediaType.video) else {
@@ -87,27 +60,29 @@ class ScanNewProductViewController: UIViewController, AVCaptureMetadataOutputObj
 		avCaptureSession.startRunning()
 	}
 	
-	private func captureOutput(_ captureOutput: AVCaptureOutput, didOutputMetadataObjects metadataObjects: [AVMetadataObject]!, from connection: AVCaptureConnection!){
-		print("Capture Output")
-		
-		if  metadataObjects.count == 0 {
-			qrCodeFrameView?.frame = CGRect.zero
-			messageLabel.text = "No code is detected"
-			return
-		}
-		let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
-		//if supportedCodeTypes.contains(metadataObj.type) {
-		//if metadataObj.type.rawValue == ".qr" {
-		//convertFromAVMetadataObjectObjectType(AVMetadataObject.ObjectType.qr) {
-		
-		let barCodeObject = avCaptureVideoPreviewLayer.transformedMetadataObject(for: metadataObj)
-		qrCodeFrameView?.frame = barCodeObject!.bounds
-		if metadataObj.stringValue != nil {
-			stringCode = metadataObj.stringValue
-			messageLabel.text = stringCode
-		}
-		//}
-	}
+	//	private func captureOutput(_ captureOutput: AVCaptureOutput, didOutputMetadataObjects metadataObjects: [AVMetadataObject]!, from connection: AVCaptureConnection!){
+	//		print("Capture Output")
+	//
+	//		if  metadataObjects.count == 0 {
+	//			qrCodeFrameView?.frame = CGRect.zero
+	//			messageLabel.text = "No code is detected"
+	//			return
+	//		}
+	//		let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
+	//		//if supportedCodeTypes.contains(metadataObj.type) {
+	//		//if metadataObj.type.rawValue == ".qr" {
+	//		//convertFromAVMetadataObjectObjectType(AVMetadataObject.ObjectType.qr) {
+	//
+	//		let barCodeObject = avCaptureVideoPreviewLayer.transformedMetadataObject(for: metadataObj)
+	//		qrCodeFrameView?.frame = barCodeObject!.bounds
+	//		if metadataObj.stringValue != nil {
+	//			stringCode = metadataObj.stringValue
+	//			messageLabel.text = stringCode
+	//
+	//		}
+	//		//}
+	//	}
+	
 	
 	func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
 		if let metadataObject = metadataObjects.first {
@@ -141,9 +116,8 @@ class ScanNewProductViewController: UIViewController, AVCaptureMetadataOutputObj
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		qrCodeFrameView.isHidden = true
-		qrCodeFrameView.layer.borderWidth = 0
-		let _ = authorizeCamara()
+		foundCode = false
+		scanCode()
 		/*
 		if (avCaptureSession.isRunning == false) {
 		avCaptureSession.startRunning()
@@ -160,9 +134,11 @@ class ScanNewProductViewController: UIViewController, AVCaptureMetadataOutputObj
 		*/
 	}
 	
+	
 	// MARK: - Navigation
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if segue.identifier == "SegueNewProduct" {
+			
 			var destinationVC = segue.destination
 			if let navcon = destinationVC as? UINavigationController {
 				destinationVC = navcon.visibleViewController ?? destinationVC

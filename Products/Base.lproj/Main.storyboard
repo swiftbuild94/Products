@@ -44,7 +44,6 @@
                     </navigationItem>
                     <connections>
                         <outlet property="messageLabel" destination="CfP-do-bUt" id="IYt-VT-ueZ"/>
-                        <outlet property="qrCodeFrameView" destination="dZB-fm-WPS" id="N3B-sT-Rt3"/>
                         <segue destination="yNa-mi-nXY" kind="show" identifier="segueAddProductToBasket" id="6fY-vl-Cx6"/>
                     </connections>
                 </viewController>
@@ -678,7 +677,7 @@
         <!--Scan Code for New Product-->
         <scene sceneID="AT0-vC-yKh">
             <objects>
-                <viewController id="1dW-qx-G5K" customClass="ScanNewProductViewController" customModule="Products" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="1dW-qx-G5K" customClass="ScanForNewProductViewController" customModule="Products" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TRx-0t-uIu">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -704,7 +703,6 @@
                     <navigationItem key="navigationItem" title="Scan Code for New Product" id="dZK-28-UNd"/>
                     <connections>
                         <outlet property="messageLabel" destination="QOE-xB-8Xp" id="JSy-ub-GbO"/>
-                        <outlet property="qrCodeFrameView" destination="TRx-0t-uIu" id="ZAa-4e-ehh"/>
                         <segue destination="MgT-qF-SSL" kind="show" identifier="SegueNewProduct" id="kWm-Qj-l5i"/>
                     </connections>
                 </viewController>

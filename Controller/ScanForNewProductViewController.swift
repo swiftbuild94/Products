@@ -1,8 +1,8 @@
 //
-//  ScanForNewProductViewController.swift
+//  ScanForNewProductViewController
 //  Products
 //
-//  Created by Patricio Benavente on 8/06/19.
+//  Created by Patricio Benavente on 18/05/19.
 //  Copyright © 2019 Patricio Benavente. All rights reserved.
 //
 
@@ -10,10 +10,8 @@ import UIKit
 import AVFoundation
 
 class ScanForNewProductViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
-
-	@IBOutlet weak var messageLabel: UILabel!
 	
-	@IBOutlet var qrCodeFrameView: UIView!
+	@IBOutlet weak var messageLabel: UILabel!
 	
 	var stringCode: String?
 	var foundCode: Bool = false
@@ -22,12 +20,8 @@ class ScanForNewProductViewController: UIViewController, AVCaptureMetadataOutput
 	let avCaptureSession = AVCaptureSession()
 	var qrCodeFrame: UIView!
 	
-	private enum error {
-		case noCamaraAvailable
-		case videoInputInitFail
-	}
-	
 	private let supportedCodeTypes: [AVMetadataObject.ObjectType] = [.upce, .code39, .code39Mod43, .code93, .code128, .ean8, .ean13, .aztec, .pdf417, .itf14, .dataMatrix, .interleaved2of5, .qr]
+	
 	
 	private func authorizeCamara()->Bool {
 		var authorized = false
@@ -53,6 +47,7 @@ class ScanForNewProductViewController: UIViewController, AVCaptureMetadataOutput
 		return authorized
 	}
 	
+	
 	private func scanCode() {
 		guard let avCaptureDevice = AVCaptureDevice.default(for: AVMediaType.video) else {
 			print("No Camara")
@@ -76,90 +71,53 @@ class ScanForNewProductViewController: UIViewController, AVCaptureMetadataOutput
 		self.view.layer.addSublayer(avCaptureVideoPreviewLayer)
 		self.view.bringSubviewToFront(messageLabel)
 		
-//		qrCodeFrameView = UIView()
-		qrCodeFrameView.layer.borderColor = UIColor.green.cgColor
-		qrCodeFrameView.layer.borderWidth = 4
-		qrCodeFrameView.isHidden = true
-		view.addSubview(qrCodeFrameView)
-		view.bringSubviewToFront(qrCodeFrameView)
+		qrCodeFrame = UIView()
+		qrCodeFrame.layer.borderColor = UIColor.green.cgColor
+		qrCodeFrame.layer.borderWidth = 4
+		qrCodeFrame.isHidden = true
+		view.addSubview(qrCodeFrame)
+		view.bringSubviewToFront(qrCodeFrame)
 		
+		foundCode = false
 		avCaptureSession.startRunning()
 	}
 	
-//	private func captureOutput(_ captureOutput: AVCaptureOutput, didOutputMetadataObjects metadataObjects: [AVMetadataObject]!, from connection: AVCaptureConnection!){
-//		print("Capture Output")
-//
-//		if  metadataObjects.count == 0 {
-//			qrCodeFrameView?.frame = CGRect.zero
-//			messageLabel.text = "No code is detected"
-//			return
-//		}
-//		let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
-//		//if supportedCodeTypes.contains(metadataObj.type) {
-//		//if metadataObj.type.rawValue == ".qr" {
-//		//convertFromAVMetadataObjectObjectType(AVMetadataObject.ObjectType.qr) {
-//
-//		let barCodeObject = avCaptureVideoPreviewLayer.transformedMetadataObject(for: metadataObj)
-//		qrCodeFrameView?.frame = barCodeObject!.bounds
-//		if metadataObj.stringValue != nil {
-//			stringCode = metadataObj.stringValue
-//			messageLabel.text = stringCode
-//		}
-//		//}
-//	}
 	
-	private func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+	func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
 		if let metadataObject = metadataObjects.first {
 			guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else {
-				qrCodeFrameView.isHidden = true
+				qrCodeFrame.isHidden = false
 				let barCodeObject = avCaptureVideoPreviewLayer.transformedMetadataObject(for: metadataObject)
-				qrCodeFrameView?.frame = barCodeObject!.bounds
-				foundCode = false
-				print("Error metadataObject")
+				qrCodeFrame?.frame = barCodeObject!.bounds
 				return
 			}
 			guard let stringValue = readableObject.stringValue else { return }
 			
-			if supportedCodeTypes.contains(metadataObject.type) {
-				qrCodeFrameView.isHidden = false
-				let barCodeObject = avCaptureVideoPreviewLayer.transformedMetadataObject(for: metadataObject)
-				qrCodeFrameView?.frame = barCodeObject!.bounds
-				
-				AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-				if ((stringValue != "")&&(foundCode == false)){
-					foundCode = true
-					stringCode = stringValue
-					messageLabel.text = stringCode
-					print("Code: \(stringCode!)")
-					//avCaptureSession.stopRunning()
-					qrCodeFrameView.isHidden = true
-					//foundCode = false
-					performSegue(withIdentifier: "SegueNewProduct", sender: self)
-				}
+			//			if supportedCodeTypes.contains(metadataObject.type) {
+			//				qrCodeFrame.isHidden = false
+			//				let barCodeObject = avCaptureVideoPreviewLayer.transformedMetadataObject(for: metadataObject)
+			//				qrCodeFrame?.frame = barCodeObject!.bounds
+			//			}
+			
+			AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+			if ((stringValue != "")&&(foundCode == false)){
+				foundCode = true
+				stringCode = stringValue
+				//				messageLabel.text = stringCode
+				print("Code: \(stringCode!)")
+				//avCaptureSession.stopRunning()
+				//				qrCodeFrame.isHidden = true
+				//				qrCodeFrame.frame = CGRect.zero
+				performSegue(withIdentifier: "SegueNewProduct", sender: self)
 			}
 		}
 	}
 	
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		foundCode = false
-		qrCodeFrameView.isHidden = true
-		qrCodeFrameView.layer.borderWidth = 0
 		let _ = authorizeCamara()
-		/*
-		if (avCaptureSession.isRunning == false) {
-		avCaptureSession.startRunning()
-		}
-		*/
-	}
-	
-	override func viewWillDisappear(_ animated: Bool) {
-		super.viewWillDisappear(animated)
-		/*
-		if (avCaptureSession.isRunning == true) {
-		avCaptureSession.stopRunning()
-		}
-		*/
 	}
 	
 	
