@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import CoreData
 
 class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
 
@@ -98,8 +99,15 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 //				let barCodeObject = avCaptureVideoPreviewLayer.transformedMetadataObject(for: metadataObject)
 //				qrCodeFrame?.frame = barCodeObject!.bounds
 //			}
-			
+			let previewView = PreviewView()
+			previewView.videoPreviewLayer.session = self.avCaptureSession
 			AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+			DispatchQueue.main.async {
+				previewView.videoPreviewLayer.opacity = 0
+				UIView.animate(withDuration: 0.25) {
+					previewView.videoPreviewLayer.opacity = 1
+				}
+			}
 			if ((stringValue != "")&&(foundCode == false)){
 				foundCode = true
 				stringCode = stringValue
@@ -108,9 +116,41 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 				//avCaptureSession.stopRunning()
 //				qrCodeFrame.isHidden = true
 //				qrCodeFrame.frame = CGRect.zero
-				performSegue(withIdentifier: "segueAddProductToBasket", sender: self)
+				getProductData()
 			}
 		}
+	}
+	
+	
+	private func getProductData(){
+		guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+		let managedContext = appDelegate.persistentContainer.viewContext
+		let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Product")
+		let predicate =  NSPredicate(format: "code == %@", stringCode!)
+		fetchRequest.predicate = predicate
+		do {
+			let product = try managedContext.fetch(fetchRequest).first
+			if product == nil { alertNoCode(stringCode!)    }
+			performSegue(withIdentifier: "segueAddProductToBasket", sender: self)
+		} catch let error as NSError {
+			print("Failed to Fetch: \(error)")
+		}
+	}
+	
+	
+	private func alertNoCode(_ stringCode: String){
+		let alert = UIAlertController(title: "New Product", message: "Add the product to the database?", preferredStyle: UIAlertController.Style.alert)
+		alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { (action) in
+			alert.dismiss(animated: true, completion: nil)
+			self.performSegue(withIdentifier: "segueAddNewProduct", sender: self)
+			print ("Yes")
+		}))
+		alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: { (action) in
+			alert.dismiss(animated: true, completion: nil)
+			print("Cancel")
+		}))
+		
+		present(alert, animated: true, completion: nil)
 	}
 	
 	
@@ -123,13 +163,12 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 	
     // MARK: - Navigation
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if segue.identifier == "segueAddProductToBasket" {
-			
-			var destinationvc = segue.destination
-			if let navcon = destinationvc as? UINavigationController {
-				destinationvc = navcon.visibleViewController ?? destinationvc
-			}
-			
+		var destinationvc = segue.destination
+		if let navcon = destinationvc as? UINavigationController {
+			destinationvc = navcon.visibleViewController ?? destinationvc
+		}
+		switch segue.identifier {
+		case "segueAddProductToBasket":
 			if let newVC = destinationvc as? AddProductToBasketViewController {
 				if stringCode != nil {
 					//newVC.labelProductCode.text = stringCode
@@ -138,6 +177,17 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 					//newVC.navigationItem.title = stringCode
 				}
 			}
+		case "segueAddNewProduct":
+			if let newVC = destinationvc as? ProductViewController {
+				if stringCode != nil {
+					//newVC.labelProductCode.text = stringCode
+					newVC.productCode = stringCode
+					//newVC.managedObjectContext = self.managedObjectContext
+					//newVC.navigationItem.title = stringCode
+				}
+			}
+		default:
+			break
 		}
     }
 

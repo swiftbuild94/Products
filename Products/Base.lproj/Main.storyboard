@@ -508,13 +508,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Product Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Iul-ET-YUZ">
-                                <rect key="frame" x="102.5" y="83" width="201.5" height="30"/>
+                                <rect key="frame" x="102.5" y="39" width="201.5" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="next" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="name"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bLg-LF-FvD">
-                                <rect key="frame" x="16" y="89" width="51.5" height="24"/>
+                                <rect key="frame" x="16" y="45" width="51.5" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="6E7-DT-jJb"/>
                                 </constraints>
@@ -523,13 +523,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Product Price $" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pDh-0D-OCg">
-                                <rect key="frame" x="102.5" y="132" width="201.5" height="30"/>
+                                <rect key="frame" x="102.5" y="88" width="201.5" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="decimalPad" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="tel"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price $" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s1G-2Q-Qd7">
-                                <rect key="frame" x="15.5" y="138" width="61" height="24"/>
+                                <rect key="frame" x="15.5" y="94" width="61" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="MLm-Qe-1g5"/>
                                 </constraints>
@@ -538,7 +538,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Eh6-Qm-UVU">
-                                <rect key="frame" x="16" y="187" width="288" height="24"/>
+                                <rect key="frame" x="16" y="143" width="288" height="24"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Product Code" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EYn-ra-hzw">
                                         <rect key="frame" x="0.0" y="0.0" width="120" height="24"/>
@@ -608,6 +608,7 @@
                     <nil name="viewControllers"/>
                     <connections>
                         <segue destination="qQm-WT-MSl" kind="relationship" relationship="rootViewController" id="rOO-E7-UVt"/>
+                        <segue destination="MgT-qF-SSL" kind="presentation" identifier="segueAddNewProduct" id="1K7-DM-sH5"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R0r-cF-e7i" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -718,7 +719,7 @@
         <image name="stockIcons" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="kWm-Qj-l5i"/>
+        <segue reference="1K7-DM-sH5"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="0.33305177540000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>
