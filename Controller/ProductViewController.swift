@@ -13,116 +13,74 @@
 		
 		@IBOutlet weak var txtProductName: UITextField!
 		
-		@IBAction func cancelNewUser(_ sender: UIBarButtonItem) {
+		@IBOutlet weak var txtProductPrice: UITextField!
+		
+		@IBOutlet weak var labelProductCode: UILabel!
+		
+		@IBAction func barSave(_ sender: UIBarButtonItem) {
+			GetDataForSave()
+		}
+		
+		var productCode: String!
+		
+		//let coreDataManager = CoreDataManager()
+		
+		private func GetDataForSave()->Void{
+			let productName = txtProductName.text ?? ""
+			let productPrice = Float(txtProductPrice.text ?? "0")!
+			
+			if (productName == "") {
+				return
+			}
+		
+			let productIdcategory = 1
+			saveProduct(productName,productPrice: productPrice, productCode: productCode!,idCategory: productIdcategory)
+			
+			/*
+			let context = coreDataManager.context
+			let product = Product(context: context)
+			product.code =  "XASSDASDAS12312312"
+			product.idcategory = 1
+			product.product = productName
+			product.sellprice = productPrice
+			//coreDataManager.save(Product.self)
+			*/
+			
 			_ = navigationController?.popViewController(animated: true)
 		}
 		
-		let productCode = "XASSDASDAS12312312"
-		let idCategory = 1
-		
-		@IBAction func barSave(_ sender: UIBarButtonItem) {
-			let productName = txtProductName.text ?? ""
-			
-			if (productName != "") {
-				saveProduct(productName,productCode: productCode,idCategory: idCategory)
-				_ = navigationController?.popViewController(animated: true)
-			}
-		}
-		
-		
-		private func saveProduct(_ product: String, productCode: String, idCategory: Int){
+		private func saveProduct(_ product: String, productPrice: Float,productCode: String, idCategory: Int){
 			let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
 			let contextProduct = appDelegate.persistentContainer.viewContext
 			
 			let newProduct = NSEntityDescription.insertNewObject(forEntityName: "Product", into: contextProduct )
 			newProduct.setValue(product, forKey: "product")
 			newProduct.setValue(productCode, forKey: "code")
+			newProduct.setValue(productPrice, forKey: "sellprice")
 			newProduct.setValue(idCategory, forKey: "idcategory")
 			do {
 				try contextProduct.save()
 				print("Saved Product: \(product)")
+				print("Price: \(String(productPrice))")
 				dismiss(animated: true, completion: nil)
 			}catch{
 				print("Error Saving")
 			}
-			
 		}
 		
-		/*
-		var usersnameArr = [String]()
-		var passwordArr = [String]()
-		var levelArr = [String]()
-		
-		private func SearchUser(user: String){
-			let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
-			let context = appDelegate.persistentContainer.viewContext
-			
-			let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Users")
-			request.returnsObjectsAsFaults = false
-			request.predicate = NSPredicate(format: "username=%@", ""+user)
-			
-			do{
-				let results = try context.fetch(request)
-				if results.count > 0 {
-					for result in results as! [NSManagedObject]{
-						if let username = result.value(forKey: "username") as? String {
-							print(username)
-							usersnameArr.append(username)
-						}
-						if let password = result.value(forKey: "password") as? String {
-							print(password)
-							passwordArr.append(password)
-						}
-						if let level = result.value(forKey: "level") as? String {
-							print(level)
-							levelArr.append(level)
-						}
-					}
-				}else{
-					print("Not Found")
-				}
-			}catch{
-				print("Error Searching")
-			}
+		override func viewWillDisappear(_ animated: Bool) {
+			GetDataForSave()
 		}
-		
-		private func getUser(){
-			let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
-			let context = appDelegate.persistentContainer.viewContext
-			//let entity = NSEntityDescription.entity(forEntityName: "Users", in: context)
-			
-			let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Users")
-			request.returnsObjectsAsFaults = false
-			//var results: NSArray = context.executeFetchRequest(request, error: nil)
-			do{
-				let results = try context.fetch(request)
-				
-				if results.count > 0 {
-					for result in results as! [NSManagedObject]{
-						if let username = result.value(forKey: "username") as? String {
-							print(username)
-							usersnameArr.append(username)
-						}
-						if let password = result.value(forKey: "password") as? String {
-							print(password)
-							passwordArr.append(password)
-						}
-						if let level = result.value(forKey: "level") as? String {
-							print(level)
-							levelArr.append(level)
-						}
-					}
-				}
-			}catch{
-				print("Error Retriving")
-			}
-		}
-*/
 		
 		override func viewDidLoad() {
 			super.viewDidLoad()
+			if productCode != nil {
+				labelProductCode.text = productCode
+			}
 			
 			self.txtProductName.delegate = self
+			self.txtProductPrice.delegate = self
+			self.txtProductName.becomeFirstResponder()
 		}
 		
 		override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -130,8 +88,25 @@
 		}
 		
 		func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-			txtProductName.resignFirstResponder()
+			if textField === txtProductName {
+				txtProductName.resignFirstResponder()
+				txtProductPrice.becomeFirstResponder()
+			}else if (textField === txtProductPrice) {
+				txtProductPrice.resignFirstResponder()
+				GetDataForSave()
+			}
 			return true
 		}
 		
+		override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+			/*
+			var destinationVC = segue.destination
+			if let navcon = destinationVC as? UINavigationController {
+				destinationVC = navcon.visibleViewController ?? destinationVC
+			}
+			if let newVC = destinationVC as? ProductsTableViewController {
+				
+			}
+			*/
+		}
 }

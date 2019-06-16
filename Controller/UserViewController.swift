@@ -42,10 +42,10 @@ class UserViewController: UIViewController {
 		do {
 			try context.save()
 			print("Saved User: \(user)")
+			dismiss(animated: true, completion: nil)
 		}catch{
 			print("Error Saving")
 		}
-		
 	}
 	
 	var usersnameArr = [String]()
