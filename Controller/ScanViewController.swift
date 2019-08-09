@@ -28,12 +28,10 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 		var authorized = false
 		switch AVCaptureDevice.authorizationStatus(for: .video) {
 		case .authorized: // The user has previously granted access to the camera.
-			self.scanCode()
 			authorized = true
 		case .notDetermined: // The user has not yet been asked for camera access.
 			AVCaptureDevice.requestAccess(for: .video) { granted in
 				if granted {
-					self.scanCode()
 					authorized = true
 				}else{
 					authorized = false
@@ -93,48 +91,60 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 				return
 			}
 			guard let stringValue = readableObject.stringValue else { return }
+			stringCode = stringValue
 			
-//			if supportedCodeTypes.contains(metadataObject.type) {
-//				qrCodeFrame.isHidden = false
-//				let barCodeObject = avCaptureVideoPreviewLayer.transformedMetadataObject(for: metadataObject)
-//				qrCodeFrame?.frame = barCodeObject!.bounds
-//			}
-			let previewView = PreviewView()
-			previewView.videoPreviewLayer.session = self.avCaptureSession
 			AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-			DispatchQueue.main.async {
-				previewView.videoPreviewLayer.opacity = 0
-				UIView.animate(withDuration: 0.25) {
-					previewView.videoPreviewLayer.opacity = 1
+			self.avCaptureSession.stopRunning()
+			self.messageLabel.text = self.stringCode
+			//				previewView.videoPreviewLayer.opacity = 0
+			UIView.animate(withDuration: 0.25) {
+//				print("Animation")
+				//previewView.videoPreviewLayer.opacity = 0
+				if self.supportedCodeTypes.contains(metadataObject.type) {
+					self.qrCodeFrame.isHidden = false
+					let barCodeObject = self.avCaptureVideoPreviewLayer.transformedMetadataObject(for: metadataObject)
+					self.qrCodeFrame.frame = barCodeObject!.bounds
 				}
 			}
-			if ((stringValue != "")&&(foundCode == false)){
-				foundCode = true
-				stringCode = stringValue
-//				messageLabel.text = stringCode
-				print("Code: \(stringCode!)")
-				//avCaptureSession.stopRunning()
-//				qrCodeFrame.isHidden = true
-//				qrCodeFrame.frame = CGRect.zero
-				getProductData()
-			}
+			
+			let isProductData = self.getProductData()
+			let timeDelay = DispatchTime.now() + .seconds(1)
+			DispatchQueue.main.asyncAfter(deadline: timeDelay, execute: {
+				print("Enter Main Queue")
+//				print("Exits Main Queue")
+//				previewView.videoPreviewLayer.opacity = 0
+				self.messageLabel.text = "Scanning Bar Code…"
+				self.qrCodeFrame.isHidden = true
+				self.qrCodeFrame.frame = CGRect.zero
+				self.avCaptureSession.startRunning()
+//				if ((self.stringCode != "")&&(self.foundCode == false)){
+				if(self.stringCode == nil){ return }
+					self.foundCode = true
+					print("Code: \(self.stringCode!)")
+				if isProductData {
+					self.alertNoCode(self.stringCode!)
+				} else {
+					self.performSegue(withIdentifier: "segueAddProductToBasket", sender: self)
+				}
+			})
+			print("Out of Main Queue")
 		}
 	}
 	
 	
-	private func getProductData(){
-		guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+	private func getProductData()->Bool {
+		guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return false }
 		let managedContext = appDelegate.persistentContainer.viewContext
 		let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Product")
 		let predicate =  NSPredicate(format: "code == %@", stringCode!)
 		fetchRequest.predicate = predicate
 		do {
 			let product = try managedContext.fetch(fetchRequest).first
-			if product == nil { alertNoCode(stringCode!)    }
-			performSegue(withIdentifier: "segueAddProductToBasket", sender: self)
+			return product == nil
 		} catch let error as NSError {
 			print("Failed to Fetch: \(error)")
 		}
+		return false
 	}
 	
 	
@@ -143,11 +153,11 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 		alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { (action) in
 			alert.dismiss(animated: true, completion: nil)
 			self.performSegue(withIdentifier: "segueAddNewProduct", sender: self)
-			print ("Yes")
+			print ("Alert: Yes")
 		}))
 		alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: { (action) in
 			alert.dismiss(animated: true, completion: nil)
-			print("Cancel")
+			print("Alert: Cancel")
 		}))
 		
 		present(alert, animated: true, completion: nil)
@@ -157,11 +167,31 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 	override func viewDidLoad() {
         super.viewDidLoad()
 		foundCode = false
-		let _ = authorizeCamara()
+		if authorizeCamara() {
+			scanCode()
+			let tabCamara = tabBarController?.tabBar.items?[0]
+			if !tabCamara!.isEnabled {
+				tabCamara?.isEnabled = true
+			}
+		}else{
+			tabBarController?.tabBar.items?[0].isEnabled = false
+			self.tabBarController?.selectedIndex = 1
+		}
+//		tabBarController?.tabBar.items?.badgeTextAttributes(for: UIControl.State)
+		
+//		tabBarController?.tabBar.items?.forEach { $0.isEnabled = false }
+//		tabBarController?.tabBar.items?[0].isEnabled = false
+		
+		print("Basket Date is: \(String(describing: BasketValues.get()?.Date))")
+		print("Basket: \(String(describing: BasketValues.getPlist(withName: "Basket")))")
     }
 	
 	
     // MARK: - Navigation
+	@IBAction func unwindToScanProduct(_ sender: UIStoryboardSegue){
+		
+	}
+	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		var destinationvc = segue.destination
 		if let navcon = destinationvc as? UINavigationController {
@@ -178,7 +208,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 				}
 			}
 		case "segueAddNewProduct":
-			if let newVC = destinationvc as? ProductViewController {
+			if let newVC = destinationvc as? AddProductViewController {
 				if stringCode != nil {
 					//newVC.labelProductCode.text = stringCode
 					newVC.productCode = stringCode

@@ -11,7 +11,6 @@
 	
 	class StockTableViewController: UITableViewController {
 		
-		
 		//@IBOutlet weak var tableViewCellProducts: UITableViewCell!
 		private var items: [NSManagedObject] = []
 		let cellId = "CellStock"
@@ -35,8 +34,7 @@
 		}
 		*/
 		
-		override func viewWillAppear(_ animated: Bool) {
-			super.viewWillAppear(animated)
+		private func loadProducts(){
 			guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
 			let managedContext = appDelegate.persistentContainer.viewContext
 			let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Product")
@@ -49,6 +47,11 @@
 			} catch let error as NSError {
 				print("Failed to Fetch: \(error)")
 			}
+		}
+		
+		override func viewWillAppear(_ animated: Bool) {
+			super.viewWillAppear(animated)
+			self.loadProducts()
 			self.tableView.reloadData()
 		}
 		
@@ -75,38 +78,65 @@
 		
 		override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 			//let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
-			let cell = UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: cellId)
+			let cell = UITableViewCell(style: UITableViewCell.CellStyle.value1, reuseIdentifier: cellId)
 			
 			let item = items[indexPath.row]
 			
 			let name = item.value(forKey: "product") as? String
-			let code = item.value(forKey: "code") as? String
+			let qty = item.value(forKey: "qty") as? String
 			//print("Product: \(name ?? "Error")")
-			//print("Code: \(code ?? "codeError")")
+			print("Qty: \(qty ?? "codeError")")
 			
 			cell.textLabel?.text = name
-			cell.detailTextLabel?.text = code
+			cell.detailTextLabel?.text = qty ?? "1" 
 			return cell
 		}
 		
-		/*
+		
+		override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+			let deleteButton = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+				self.tableView.dataSource?.tableView!(self.tableView, commit: .delete, forRowAt: indexPath)
+				return
+			}
+			let moveButton = UITableViewRowAction(style: .destructive, title: "Move") {
+				(action, indexPath) in
+//				self.tableView.dataSource?.tableView!(tableView, commit: .edit, forRowAt: indexPath)
+				return
+			}
+			deleteButton.backgroundColor = UIColor.red
+			moveButton.backgroundColor = UIColor.blue
+			return [deleteButton]
+		}
+
+
 		// Override to support conditional editing of the table view.
 		override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 		// Return false if you do not want the specified item to be editable.
 		return true
 		}
-		*/
-		/*
+	
+		
 		// Override to support editing the table view.
-		override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-		if editingStyle == .delete {
-		// Delete the row from the data source
-		tableView.deleteRows(at: [indexPath], with: .fade)
-		} else if editingStyle == .insert {
-		// Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+		override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+			if editingStyle == .delete {
+				// Delete the row from the data source
+				guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+				let context = appDelegate.persistentContainer.viewContext
+				context.delete(items[indexPath.row] as NSManagedObject)
+				//objects.remove(at: indexPath.row)
+				tableView.deleteRows(at: [indexPath], with: .fade)
+				//Save the object
+				
+				do{
+					try context.save()
+					self.loadProducts()
+					tableView.reloadData()
+				}
+				catch let error{
+					print("Cannot Save: Reason: \(error)")
+				}
+			}
 		}
-		}
-		*/
 		
 		/*
 		// Override to support rearranging the table view.
@@ -122,6 +152,10 @@
 		return true
 		}
 		*/
+		
+		override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+			self.view.endEditing(true)
+		}
 		
 		// MARK: - Navigation
 		

@@ -20,6 +20,7 @@ extension Product {
     @NSManaged public var code: String?
     @NSManaged public var idcategory: Int16
     @NSManaged public var product: String?
+	@NSManaged public var qty: Int64
     @NSManaged public var sellprice: Float
 
 }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Date</key>
+	<date>2019-06-19T04:31:40Z</date>
+	<key>Total</key>
+	<integer>99999</integer>
+	<key>Products</key>
+	<array>
+		<dict>
+			<key>id</key>
+			<string>1</string>
+			<key>Name</key>
+			<string>Champu</string>
+			<key>Price</key>
+			<integer>200</integer>
+			<key>Qty</key>
+			<string>2</string>
+			<key>Subtotal</key>
+			<string>400</string>
+		</dict>
+		<dict>
+			<key>id</key>
+			<string>2</string>
+			<key>Name</key>
+			<string>Arroz</string>
+			<key>Price</key>
+			<real>2250</real>
+			<key>Qty</key>
+			<integer>5</integer>
+			<key>SubTotal</key>
+			<integer>11250</integer>
+		</dict>
+	</array>
+</dict>
+</plist>

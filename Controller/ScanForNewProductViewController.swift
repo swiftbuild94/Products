@@ -27,12 +27,10 @@ class ScanForNewProductViewController: UIViewController, AVCaptureMetadataOutput
 		var authorized = false
 		switch AVCaptureDevice.authorizationStatus(for: .video) {
 		case .authorized: // The user has previously granted access to the camera.
-			self.scanCode()
 			authorized = true
 		case .notDetermined: // The user has not yet been asked for camera access.
 			AVCaptureDevice.requestAccess(for: .video) { granted in
 				if granted {
-					self.scanCode()
 					authorized = true
 				}else{
 					authorized = false
@@ -92,32 +90,55 @@ class ScanForNewProductViewController: UIViewController, AVCaptureMetadataOutput
 				return
 			}
 			guard let stringValue = readableObject.stringValue else { return }
-			
-			//			if supportedCodeTypes.contains(metadataObject.type) {
-			//				qrCodeFrame.isHidden = false
-			//				let barCodeObject = avCaptureVideoPreviewLayer.transformedMetadataObject(for: metadataObject)
-			//				qrCodeFrame?.frame = barCodeObject!.bounds
-			//			}
+			stringCode = stringValue
 			
 			AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-			if ((stringValue != "")&&(foundCode == false)){
-				foundCode = true
-				stringCode = stringValue
-				//				messageLabel.text = stringCode
-				print("Code: \(stringCode!)")
-				//avCaptureSession.stopRunning()
-				//				qrCodeFrame.isHidden = true
-				//				qrCodeFrame.frame = CGRect.zero
-				performSegue(withIdentifier: "SegueNewProduct", sender: self)
+			self.avCaptureSession.stopRunning()
+			self.messageLabel.text = self.stringCode
+			//				previewView.videoPreviewLayer.opacity = 0
+			UIView.animate(withDuration: 0.25) {
+				print("Animation")
+				//previewView.videoPreviewLayer.opacity = 0
+				if self.supportedCodeTypes.contains(metadataObject.type) {
+					self.qrCodeFrame.isHidden = false
+					let barCodeObject = self.avCaptureVideoPreviewLayer.transformedMetadataObject(for: metadataObject)
+					self.qrCodeFrame.frame = barCodeObject!.bounds
+				}
 			}
+			
+			let timeDelay = DispatchTime.now() + .seconds(1)
+			DispatchQueue.main.asyncAfter(deadline: timeDelay, execute: {
+				self.timeAction()
+			})
+			print("Out of Main Queue NEW PRODUCT")
 		}
+	}
+	
+	private func timeAction(){
+		print("Enter Main Queue NEW PRODUCT")
+		//				print("Exits Main Queue")
+		//				previewView.videoPreviewLayer.opacity = 0
+		self.messageLabel.text = "Scanning Bar Code…"
+		self.qrCodeFrame.isHidden = true
+		self.qrCodeFrame.frame = CGRect.zero
+		self.avCaptureSession.startRunning()
+		//				if ((self.stringCode != "")&&(self.foundCode == false)){
+		if(self.stringCode == nil){ return }
+		self.foundCode = true
+		
+		print("Code: \(self.stringCode!)")
+		//				self.getProductData()
+		//				}
+		self.performSegue(withIdentifier: "SegueNewProduct", sender: self)
 	}
 	
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		foundCode = false
-		let _ = authorizeCamara()
+		if authorizeCamara() {
+			scanCode()
+		}
 	}
 	
 	
@@ -129,8 +150,7 @@ class ScanForNewProductViewController: UIViewController, AVCaptureMetadataOutput
 			if let navcon = destinationVC as? UINavigationController {
 				destinationVC = navcon.visibleViewController ?? destinationVC
 			}
-			
-			if let newVC = destinationVC as? ProductViewController {
+			if let newVC = destinationVC as? CreateUpdateProductViewController {
 				if stringCode != nil {
 					newVC.productCode = stringCode!
 					//newVC.managedObjectContext = self.managedObjectContext

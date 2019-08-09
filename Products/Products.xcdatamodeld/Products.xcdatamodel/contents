@@ -22,6 +22,7 @@
         <attribute name="code" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="idcategory" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="product" attributeType="String" spotlightIndexingEnabled="YES" syncable="YES"/>
+        <attribute name="qty" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="sellprice" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <entity name="Products" representedClassName="Products" syncable="YES" codeGenerationType="class">
@@ -61,7 +62,7 @@
     <elements>
         <element name="Buy" positionX="-108.72265625" positionY="-376.70703125" width="128" height="133"/>
         <element name="Company" positionX="151.20703125" positionY="-671.35546875" width="128" height="163"/>
-        <element name="Product" positionX="-145.58203125" positionY="-208.54296875" width="128" height="30"/>
+        <element name="Product" positionX="-145.58203125" positionY="-208.54296875" width="128" height="120"/>
         <element name="Products" positionX="115.390625" positionY="-331.953125" width="128" height="195"/>
         <element name="Providers" positionX="-334.44140625" positionY="-691.78515625" width="128" height="103"/>
         <element name="Storages" positionX="-132.57421875" positionY="-520.1640625" width="128" height="73"/>

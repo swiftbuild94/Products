@@ -7,7 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E0898E722B87F2100084E2C /* AddProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0898E622B87F2100084E2C /* AddProductViewController.swift */; };
+		0E0898ED22B8BF7B00084E2C /* CreateUpdateProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0898EC22B8BF7B00084E2C /* CreateUpdateProductViewController.swift */; };
+		0E0898EF22B9E91100084E2C /* Basket.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E0898EE22B9E91100084E2C /* Basket.plist */; };
 		0E170C4122B5F39E001B5D02 /* CamaraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E170C4022B5F39E001B5D02 /* CamaraController.swift */; };
+		0E1CC7AB22D54EF9009A9ED1 /* Basket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1CC7AA22D54EF9009A9ED1 /* Basket.swift */; };
+		0E1CC7AD22D54F82009A9ED1 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E1CC7AC22D54F81009A9ED1 /* Config.plist */; };
 		0E1E2C0F2248538200D3F833 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1E2C0E2248538200D3F833 /* AppDelegate.swift */; };
 		0E1E2C112248538200D3F833 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1E2C102248538200D3F833 /* ViewController.swift */; };
 		0E1E2C142248538200D3F833 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E1E2C122248538200D3F833 /* Main.storyboard */; };
@@ -16,6 +21,7 @@
 		0E1E2C1C224853A700D3F833 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E1E2C1A224853A700D3F833 /* LaunchScreen.storyboard */; };
 		0E21DECE22AC73630049B7AC /* ScanForNewProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E21DECD22AC73630049B7AC /* ScanForNewProductViewController.swift */; };
 		0E5372CB229FC2F000BA79ED /* StockTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5372CA229FC2EF00BA79ED /* StockTableViewController.swift */; };
+		0E55E32722D1647E00D4E1D4 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E55E32622D1647E00D4E1D4 /* Config.swift */; };
 		0E5DE2EC2287ABB500EECEEA /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5DE2EB2287ABB400EECEEA /* ProductViewController.swift */; };
 		0E7CE96C229CB293001BAA0A /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7CE96B229CB293001BAA0A /* CoreDataManager.swift */; };
 		0E88E4BA22AB057300C04E43 /* PersistentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E88E4B922AB057300C04E43 /* PersistentManager.swift */; };
@@ -26,6 +32,7 @@
 		0EF6B59722A379D500E596C0 /* Product+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF6B59522A379D500E596C0 /* Product+CoreDataProperties.swift */; };
 		0EFBB35B229E422800B2979F /* AddProductToBasketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFBB35A229E422800B2979F /* AddProductToBasketViewController.swift */; };
 		0EFE2A2D22B64CEF00E5E1CB /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFE2A2C22B64CEF00E5E1CB /* PreviewView.swift */; };
+		0EFF965222C27E21000D52C5 /* BasketTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFF965122C27E20000D52C5 /* BasketTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,7 +53,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0E0898E622B87F2100084E2C /* AddProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductViewController.swift; sourceTree = "<group>"; };
+		0E0898EC22B8BF7B00084E2C /* CreateUpdateProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUpdateProductViewController.swift; sourceTree = "<group>"; };
+		0E0898EE22B9E91100084E2C /* Basket.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Basket.plist; sourceTree = "<group>"; };
 		0E170C4022B5F39E001B5D02 /* CamaraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamaraController.swift; sourceTree = "<group>"; };
+		0E1CC7AA22D54EF9009A9ED1 /* Basket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Basket.swift; path = Model/Basket.swift; sourceTree = SOURCE_ROOT; };
+		0E1CC7AC22D54F81009A9ED1 /* Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		0E1E2C0B2248538200D3F833 /* Products.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Products.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E1E2C0E2248538200D3F833 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0E1E2C102248538200D3F833 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -59,6 +71,7 @@
 		0E1E2C2D224853A800D3F833 /* ProductsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProductsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E21DECD22AC73630049B7AC /* ScanForNewProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanForNewProductViewController.swift; sourceTree = "<group>"; };
 		0E5372CA229FC2EF00BA79ED /* StockTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockTableViewController.swift; sourceTree = "<group>"; };
+		0E55E32622D1647E00D4E1D4 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		0E5DE2EB2287ABB400EECEEA /* ProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
 		0E7CE96B229CB293001BAA0A /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		0E88E4B922AB057300C04E43 /* PersistentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentManager.swift; sourceTree = "<group>"; };
@@ -69,6 +82,7 @@
 		0EF6B59522A379D500E596C0 /* Product+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Product+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		0EFBB35A229E422800B2979F /* AddProductToBasketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductToBasketViewController.swift; sourceTree = "<group>"; };
 		0EFE2A2C22B64CEF00E5E1CB /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
+		0EFF965122C27E20000D52C5 /* BasketTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,10 +147,14 @@
 		0E5DE2F12287B46900EECEEA /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0E1CC7AA22D54EF9009A9ED1 /* Basket.swift */,
+				0E1CC7AC22D54F81009A9ED1 /* Config.plist */,
+				0E0898EE22B9E91100084E2C /* Basket.plist */,
 				0E88E4B922AB057300C04E43 /* PersistentManager.swift */,
 				0E7CE96B229CB293001BAA0A /* CoreDataManager.swift */,
 				0EF6B59422A379D500E596C0 /* Product+CoreDataClass.swift */,
 				0EF6B59522A379D500E596C0 /* Product+CoreDataProperties.swift */,
+				0E55E32622D1647E00D4E1D4 /* Config.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -144,6 +162,8 @@
 		0E5DE2F32287B4AE00EECEEA /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				0EFF965122C27E20000D52C5 /* BasketTableViewController.swift */,
+				0E0898EC22B8BF7B00084E2C /* CreateUpdateProductViewController.swift */,
 				0EFE2A2C22B64CEF00E5E1CB /* PreviewView.swift */,
 				0E170C4022B5F39E001B5D02 /* CamaraController.swift */,
 				0E5372CA229FC2EF00BA79ED /* StockTableViewController.swift */,
@@ -152,6 +172,7 @@
 				0EBC4CBF2290FCF200F63042 /* ScanViewController.swift */,
 				0EE32447226A787800DDE74C /* UserViewController.swift */,
 				0E5DE2EB2287ABB400EECEEA /* ProductViewController.swift */,
+				0E0898E622B87F2100084E2C /* AddProductViewController.swift */,
 				0EA9420B226FB448003B3595 /* ProductsTableViewController.swift */,
 			);
 			path = Controller;
@@ -261,8 +282,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E0898EF22B9E91100084E2C /* Basket.plist in Resources */,
 				0E1E2C1C224853A700D3F833 /* LaunchScreen.storyboard in Resources */,
 				0E1E2C19224853A700D3F833 /* Assets.xcassets in Resources */,
+				0E1CC7AD22D54F82009A9ED1 /* Config.plist in Resources */,
 				0E1E2C142248538200D3F833 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -292,8 +315,12 @@
 				0E1E2C112248538200D3F833 /* ViewController.swift in Sources */,
 				0EFBB35B229E422800B2979F /* AddProductToBasketViewController.swift in Sources */,
 				0EA9420C226FB44A003B3595 /* ProductsTableViewController.swift in Sources */,
+				0E0898ED22B8BF7B00084E2C /* CreateUpdateProductViewController.swift in Sources */,
 				0E88E4BA22AB057300C04E43 /* PersistentManager.swift in Sources */,
+				0E0898E722B87F2100084E2C /* AddProductViewController.swift in Sources */,
+				0EFF965222C27E21000D52C5 /* BasketTableViewController.swift in Sources */,
 				0EE32448226A787800DDE74C /* UserViewController.swift in Sources */,
+				0E1CC7AB22D54EF9009A9ED1 /* Basket.swift in Sources */,
 				0E5DE2EC2287ABB500EECEEA /* ProductViewController.swift in Sources */,
 				0E21DECE22AC73630049B7AC /* ScanForNewProductViewController.swift in Sources */,
 				0E1E2C0F2248538200D3F833 /* AppDelegate.swift in Sources */,
@@ -302,6 +329,7 @@
 				0E5372CB229FC2F000BA79ED /* StockTableViewController.swift in Sources */,
 				0E1E2C172248538300D3F833 /* Products.xcdatamodeld in Sources */,
 				0E7CE96C229CB293001BAA0A /* CoreDataManager.swift in Sources */,
+				0E55E32722D1647E00D4E1D4 /* Config.swift in Sources */,
 				0EBC4CC02290FCF200F63042 /* ScanViewController.swift in Sources */,
 				0EF6B59622A379D500E596C0 /* Product+CoreDataClass.swift in Sources */,
 			);

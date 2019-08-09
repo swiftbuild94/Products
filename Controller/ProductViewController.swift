@@ -11,61 +11,61 @@
 	
 	class ProductViewController: UIViewController, UITextFieldDelegate {
 		
+		
 		@IBOutlet weak var txtProductName: UITextField!
 		
 		@IBOutlet weak var txtProductPrice: UITextField!
 		
 		@IBOutlet weak var labelProductCode: UILabel!
-		
+	
 		@IBAction func barSave(_ sender: UIBarButtonItem) {
 			GetDataForSave()
 		}
 		
-		var productCode: String!
+		var productCode: String?
+		var productName: String?
+		var productPrice: Float?
+		var product = Product()
 		
 		//let coreDataManager = CoreDataManager()
 		
 		private func GetDataForSave()->Void{
-			let productName = txtProductName.text ?? ""
-			let productPrice = Float(txtProductPrice.text ?? "0")!
+//			let productName = txtProductName.text ?? ""
+//			let productPrice = Float(txtProductPrice.text ?? "0")!
+//
+			product.product = txtProductName.text ?? ""
+			product.sellprice = Float(txtProductPrice.text ?? "0")!
+			product.idcategory = 1
 			
-			if (productName == "") {
+			if (product.product == "") {
 				return
 			}
-		
-			let productIdcategory = 1
-			saveProduct(productName,productPrice: productPrice, productCode: productCode!,idCategory: productIdcategory)
-			
-			/*
-			let context = coreDataManager.context
-			let product = Product(context: context)
-			product.code =  "XASSDASDAS12312312"
-			product.idcategory = 1
-			product.product = productName
-			product.sellprice = productPrice
-			//coreDataManager.save(Product.self)
-			*/
+			saveProduct()
 			
 			_ = navigationController?.popViewController(animated: true)
 		}
 		
-		private func saveProduct(_ product: String, productPrice: Float,productCode: String, idCategory: Int){
+		private func saveProduct(){
 			let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
 			let contextProduct = appDelegate.persistentContainer.viewContext
 			
 			let newProduct = NSEntityDescription.insertNewObject(forEntityName: "Product", into: contextProduct )
-			newProduct.setValue(product, forKey: "product")
-			newProduct.setValue(productCode, forKey: "code")
-			newProduct.setValue(productPrice, forKey: "sellprice")
-			newProduct.setValue(idCategory, forKey: "idcategory")
+			newProduct.setValue(self.product.product, forKey: "product")
+			newProduct.setValue(self.product.code, forKey: "code")
+			newProduct.setValue(self.product.sellprice, forKey: "sellprice")
+			newProduct.setValue(self.product.idcategory, forKey: "idcategory")
 			do {
 				try contextProduct.save()
-				print("Saved Product: \(product)")
-				print("Price: \(String(productPrice))")
+				print("Saved Product: \(self.product.product ?? "")")
+				print("Price: \(String(self.product.sellprice))")
 				dismiss(animated: true, completion: nil)
 			}catch{
 				print("Error Saving")
 			}
+		}
+		
+		override func awakeFromNib() {
+			super.awakeFromNib()
 		}
 		
 		override func viewWillDisappear(_ animated: Bool) {
@@ -74,10 +74,12 @@
 		
 		override func viewDidLoad() {
 			super.viewDidLoad()
+			print("Product View Controller")
 			if productCode != nil {
 				labelProductCode.text = productCode
+				product.code = productCode
 			}
-			
+			print("Product Code: \(productCode ?? "error")")
 			self.txtProductName.delegate = self
 			self.txtProductPrice.delegate = self
 			self.txtProductName.becomeFirstResponder()
