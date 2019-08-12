@@ -23,7 +23,6 @@ class AddProductViewController: UIViewController, UITextFieldDelegate {
 		GetDataForSave()
 	}
 	
-	
 	var productCode: String?
 	var productName: String?
 	var productPrice: Float?
@@ -31,6 +30,7 @@ class AddProductViewController: UIViewController, UITextFieldDelegate {
 	var productQty: Int?
 	var product = Product()
 	
+	// MARK: - CoreData
 	//let coreDataManager = CoreDataManager()
 	
 	private func GetDataForSave()->Void{
@@ -71,6 +71,7 @@ class AddProductViewController: UIViewController, UITextFieldDelegate {
 		}
 	}
 	
+	// MARK: - View Lifecycle
 //	override func awakeFromNib() {
 //		super.awakeFromNib()
 //	}
@@ -90,6 +91,11 @@ class AddProductViewController: UIViewController, UITextFieldDelegate {
 			}
 		}
 		print("Product Code: \(productCode ?? "error")")
+		setUpKeyboard()
+	}
+	
+	// MARK: - Keyboard
+	fileprivate func setUpKeyboard() {
 		self.txtProductName.delegate = self
 		self.txtProductPrice.delegate = self
 		self.txtProductName.becomeFirstResponder()
@@ -137,6 +143,7 @@ class AddProductViewController: UIViewController, UITextFieldDelegate {
 		return true
 	}
 	
+	// MARK: - Navigation
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?){
 		/*
 		var destinationVC = segue.destination

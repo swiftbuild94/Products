@@ -151,12 +151,12 @@ class AddProductToBasketViewController: UIViewController, UITextFieldDelegate {
 		}
 	}
 
+	// MARK: - View Lifecycle
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(true)
 		readPlist()
 	}
 
-	
 	
  	override func viewDidLoad() {
         super.viewDidLoad()
