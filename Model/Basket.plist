@@ -9,7 +9,7 @@
 	<key>Products</key>
 	<array>
 		<dict>
-			<key>id</key>
+			<key>Id</key>
 			<string>1</string>
 			<key>Name</key>
 			<string>Champu</string>
@@ -21,7 +21,7 @@
 			<string>400</string>
 		</dict>
 		<dict>
-			<key>id</key>
+			<key>Id</key>
 			<string>2</string>
 			<key>Name</key>
 			<string>Arroz</string>

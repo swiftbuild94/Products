@@ -162,7 +162,8 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Item" image="shoppingcarticon" id="Z0w-Nu-EVZ">
                             <connections>
-                                <segue destination="nW4-zd-Wiv" kind="presentation" id="paT-Eu-N5h"/>
+                                <action selector="BasketButton:" destination="PP0-Dc-eJQ" id="ZXH-zN-dsK"/>
+                                <segue destination="nW4-zd-Wiv" kind="presentation" identifier="ShowBasketSegue" id="paT-Eu-N5h"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1068,7 +1069,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="9LH-rS-jAN"/>
-        <segue reference="CGZ-7C-wNi"/>
+        <segue reference="paT-Eu-N5h"/>
         <segue reference="6fY-vl-Cx6"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="0.33305177540000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -17,11 +17,9 @@ class AddProductToBasketViewController: UIViewController, UITextFieldDelegate {
 	
 	@IBOutlet weak var labelProductCode: UILabel!
 
-	@IBAction func barCancel(_ sender: UIBarButtonItem) {
-		dismiss(animated: true, completion: nil)
-	}
-	
 	@IBOutlet weak var textQty: UITextField!
+	
+	@IBOutlet weak var labelSubtotal: UILabel!
 	
 	@IBAction func stepper(_ sender: UIStepper) {
 		var stepper = 1
@@ -30,8 +28,16 @@ class AddProductToBasketViewController: UIViewController, UITextFieldDelegate {
 		validateTextQty()
 	}
 	
-	@IBOutlet weak var labelSubtotal: UILabel!
+	@IBAction func barCancel(_ sender: UIBarButtonItem) {
+		dismiss(animated: true, completion: nil)
+	}
 	
+	@IBAction func BasketButton(_ sender: UIBarButtonItem) {
+		saveBasket()
+	}
+	
+	
+	// MARK: - Variables
 	var productCode: String? = nil
 	private var productName: String? = nil
 	private var qty = 1
@@ -43,66 +49,23 @@ class AddProductToBasketViewController: UIViewController, UITextFieldDelegate {
 	
 	var plistPathInDocument:String = String()
 	
-	private func preparePlistForUse(){
-		let rootPath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, .userDomainMask, true)[0]
-		plistPathInDocument = rootPath.appendingFormat("/basket.plist")
-		if !FileManager.default.fileExists(atPath: plistPathInDocument){
-			guard let plistPathInBundle = (Bundle.main.path(forResource: "basket", ofType: "plist") ) else { return }
-			do {
-				try FileManager.default.copyItem(atPath: plistPathInBundle, toPath: plistPathInDocument)
-			}catch{
-				print("Error occurred while copying file to document \(error)")
-			}
-		}
+	struct Product {
+		var id: String
+		var name: String
+		var price: Float
+		var qty: Int
+		var subTotal: Float
 	}
 	
-	private func readPlist(){
-		self.preparePlistForUse()
-		print("READ PLIST")
-//		let appDelegate = UIApplication.shared.delegate as! AppDelegate
-			plistPath = plistPathInDocument
-			// Extract the content of the file as NSData
-		let data:NSData =  FileManager.default.contents(atPath: plistPath)! as NSData
-			do{
-				basketArray = try PropertyListSerialization.propertyList(from: data as Data, options: PropertyListSerialization.MutabilityOptions.mutableContainersAndLeaves, format: nil) as? NSMutableArray
-			}catch{
-				print("Error occured while reading from the plist file")
-			}
-//			self.tableView.reloadData()
-		}
-	
-	
-	private func readBasket(){
-		print("Try to read basket")
-		var productsArrayValues: NSArray!
-		let file = NSDictionary.init(contentsOfFile: Bundle.main.path(forResource: "Basket", ofType: "plist")!)
-		let productsArray: NSArray = NSArray.init(object: file!.object(forKey: "Products") as Any)
-		productsArrayValues = (productsArray.object(at: 0) as? NSArray)
-		for count in 0..<productsArrayValues.count{
-			let product = productsArrayValues[count] as? NSDictionary
-			print(productsArrayValues[count])
-			print(product!.value(forKey: "Name")! )
-		}
+	struct Basket {
+		var date: Date
+		var total: Float
+		var products = [Product].self
 	}
 	
+	var basket: Basket?
 	
-	private func writeBasket(){
-		print("Write Basket plist")
-		let fileManager = FileManager.default
-		let newProduct = ["Name":"Tabaco2", "Price":"25,50","Qty":"4","Subtotal":"102"]
-		let products = [newProduct]
-		let serializedData = try? PropertyListSerialization.data(fromPropertyList: products, format: PropertyListSerialization.PropertyListFormat.xml, options: 0)
-		let document = try? fileManager.url(for: .libraryDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-		let file = document!.appendingPathComponent("basket.plist")
-		do{
-			try serializedData!.write(to: file)
-			print(document!)
-		}catch{
-			print(error)
-		}
-	}
-
-	
+	// MARK: - Processing Qty & Subtotal
 	private func validateTextQty(){
 		if ((textQty.text != nil) && (textQty.text != "")){
 			if (Int(textQty.text!) != nil) {
@@ -125,6 +88,7 @@ class AddProductToBasketViewController: UIViewController, UITextFieldDelegate {
 		updateViewSubTotal(qty, subTotal: subTotal)
 	}
 	
+	// MARK: - CoreData
 	private func getProductData(){
 		guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
 		let managedContext = appDelegate.persistentContainer.viewContext
@@ -150,23 +114,63 @@ class AddProductToBasketViewController: UIViewController, UITextFieldDelegate {
 			print("Failed to Fetch: \(error)")
 		}
 	}
-
+	
+	
+	// MARK: - Plist
+	private func preparePlistForUse()->URL?{
+		let rootPath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.libraryDirectory, .userDomainMask, true)[0]
+		plistPathInDocument = rootPath.appendingFormat("/basket.plist")
+		if !FileManager.default.fileExists(atPath: plistPathInDocument){
+			guard let plistPathInBundle = (Bundle.main.path(forResource: "basket", ofType: "plist") ) else { return nil}
+			do {
+				try FileManager.default.copyItem(atPath: plistPathInBundle, toPath: plistPathInDocument)
+				let pathURL = URL(fileURLWithPath: plistPathInDocument)
+				print(pathURL)
+				return pathURL
+			}catch{
+				print("Error occurred while copying file to document \(error)")
+				return nil
+			}
+		}
+	}
+	
+	private func readBasket(){
+		guard let path = preparePlistForUse() else { return }
+//		guard let basketPlist = Bundle.main.url(forResource: "Basket", withExtension: "plist") else  { return }
+		let basket = NSMutableDictionary(contentsOf: path)
+		print("Basket: \(basket.debugDescription)")
+		let myDic = NSDictionary(contentsOf: path)
+		if let dict = myDic {
+			myItemValue = dict.object(forKey: myItemKey) as! String?
+			txtValue.text = myItemValue
+			
+		}
+	}
+	
+	private func saveBasket(){
+		
+	}
+	
 	// MARK: - View Lifecycle
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(true)
-		readPlist()
+		readBasket()
 	}
 
-	
- 	override func viewDidLoad() {
+	override func viewDidLoad() {
         super.viewDidLoad()
-		readBasket()
-		writeBasket()
+//		readBasket()
+//		writeBasket()
 		// productCode gets set on segue in ScanViewControler
 		if productCode != nil {
 			labelProductCode.text = productCode!
 			getProductData()
 		}
+		setUpKeyboard()
+	}
+	
+	// MARK: - Keyboard
+	fileprivate func setUpKeyboard() {
 		textQty.becomeFirstResponder()
 		textQty.clearsOnBeginEditing = true
 		
@@ -181,7 +185,7 @@ class AddProductToBasketViewController: UIViewController, UITextFieldDelegate {
 		let btnDoneOnKeyboard = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.dismissKeyboard))
 		ViewForDoneButtonOnKeyboard.items = [space, btnDoneOnKeyboard]
 		textQty.inputAccessoryView = ViewForDoneButtonOnKeyboard
-	}    
+	}
 	
 	@objc func dismissKeyboard()  {
 		//Causes the view (or one of its embedded text fields) to resign the first responder status.
@@ -208,7 +212,6 @@ class AddProductToBasketViewController: UIViewController, UITextFieldDelegate {
 
     /*
     // MARK: - Navigation
-
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
