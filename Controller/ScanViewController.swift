@@ -17,6 +17,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 	var stringCode: String?
 	var foundCode: Bool = false
 	
+	// MARK: - Camara
 	var avCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer()
 	let avCaptureSession = AVCaptureSession()
 	var qrCodeFrame: UIView!
@@ -131,7 +132,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 		}
 	}
 	
-	
+	// MARK: - CoreData
 	private func getProductData()->Bool {
 		guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return false }
 		let managedContext = appDelegate.persistentContainer.viewContext
@@ -148,6 +149,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 	}
 	
 	
+	// MARK: - Alert
 	private func alertNoCode(_ stringCode: String){
 		let alert = UIAlertController(title: "New Product", message: "Add the product to the database?", preferredStyle: UIAlertController.Style.alert)
 		alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { (action) in
@@ -163,7 +165,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 		present(alert, animated: true, completion: nil)
 	}
 	
-	
+	// MARK: - View Lifecycle
 	override func viewDidLoad() {
         super.viewDidLoad()
 		foundCode = false
@@ -182,8 +184,8 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 //		tabBarController?.tabBar.items?.forEach { $0.isEnabled = false }
 //		tabBarController?.tabBar.items?[0].isEnabled = false
 		
-		print("Basket Date is: \(String(describing: BasketValues.get()?.Date))")
-		print("Basket: \(String(describing: BasketValues.getPlist(withName: "Basket")))")
+//		print("Basket Date is: \(String(describing: BasketValues.get()?.Date))")
+//		print("Basket: \(String(describing: BasketValues.getPlist(withName: "Basket")))")
     }
 	
 	

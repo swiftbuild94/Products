@@ -33,12 +33,15 @@ class AddProductToBasketViewController: UIViewController, UITextFieldDelegate {
 	}
 	
 	@IBAction func BasketButton(_ sender: UIBarButtonItem) {
-		saveBasket()
+		let subTotal: Float = (productPrice ?? 0) * Float(qty)
+		let newProduct = Product(id: productId!, name: productName!, code: productCode!, price: productPrice!, qty: qty, subTotal: subTotal)
+		saveBasket("Basket", value: newProduct)
 	}
 	
 	
 	// MARK: - Variables
 	var productCode: String? = nil
+	var productId: Int? = nil
 	private var productName: String? = nil
 	private var qty = 1
 	private var productPrice: Float? = nil
@@ -50,8 +53,9 @@ class AddProductToBasketViewController: UIViewController, UITextFieldDelegate {
 	var plistPathInDocument:String = String()
 	
 	struct Product {
-		var id: String
+		var id: Int
 		var name: String
+		var code: String
 		var price: Float
 		var qty: Int
 		var subTotal: Float
@@ -64,6 +68,7 @@ class AddProductToBasketViewController: UIViewController, UITextFieldDelegate {
 	}
 	
 	var basket: Basket?
+	var product: NSMutableDictionary?
 	
 	// MARK: - Processing Qty & Subtotal
 	private func validateTextQty(){
@@ -117,44 +122,56 @@ class AddProductToBasketViewController: UIViewController, UITextFieldDelegate {
 	
 	
 	// MARK: - Plist
-	private func preparePlistForUse()->URL?{
-		let rootPath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.libraryDirectory, .userDomainMask, true)[0]
-		plistPathInDocument = rootPath.appendingFormat("/basket.plist")
-		if !FileManager.default.fileExists(atPath: plistPathInDocument){
-			guard let plistPathInBundle = (Bundle.main.path(forResource: "basket", ofType: "plist") ) else { return nil}
-			do {
-				try FileManager.default.copyItem(atPath: plistPathInBundle, toPath: plistPathInDocument)
-				let pathURL = URL(fileURLWithPath: plistPathInDocument)
-				print(pathURL)
-				return pathURL
-			}catch{
-				print("Error occurred while copying file to document \(error)")
-				return nil
+	private func readPlist(_ fileName: String){
+		let paths = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true) as NSArray
+		let documentDirectory = paths[0] as! String
+		let path = documentDirectory.appending("/"+fileName+".plist")
+		print(path)
+		let fileManager = FileManager.default
+		if (!fileManager.fileExists(atPath: path)){
+			if let bundlePath = Bundle.main.path(forResource: fileName, ofType: "plist") {
+				print(bundlePath)
+				guard let result = NSMutableDictionary(contentsOfFile: bundlePath) else { return }
+				print("Bundle file: \(result)")
+				print(result["Total"] ?? "Error")
+				do {
+					try fileManager.copyItem(atPath: bundlePath, toPath: path)
+				} catch {
+					print("Copy Failure")
+				}
+			} else {
+				print("File Not Found")
+			}
+		} else {
+			if let bundlePath = Bundle.main.path(forResource: fileName, ofType: "plist"){
+				print(bundlePath)
+				guard let resultDictionary = NSMutableDictionary(contentsOfFile: path) else { return }
+				print("Bundle file: \(resultDictionary)")
+				print(resultDictionary["Total"] ?? "Error")
+				guard let products = resultDictionary["Products"] as? NSMutableArray else { return }
+				guard let firstProduct = products[0] as? NSMutableDictionary else { return }
+				let nameProduct = firstProduct["Name"]
+				print("Name: \(nameProduct ?? "Error Products")")
 			}
 		}
 	}
 	
-	private func readBasket(){
-		guard let path = preparePlistForUse() else { return }
-//		guard let basketPlist = Bundle.main.url(forResource: "Basket", withExtension: "plist") else  { return }
-		let basket = NSMutableDictionary(contentsOf: path)
-		print("Basket: \(basket.debugDescription)")
-		let myDic = NSDictionary(contentsOf: path)
-		if let dict = myDic {
-			myItemValue = dict.object(forKey: myItemKey) as! String?
-			txtValue.text = myItemValue
-			
-		}
+	private func saveBasket(_ fileName: String, value: Product){
+		let paths = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true) as NSArray
+		let documentDirectory = paths[0] as! String
+		let path = documentDirectory.appending("/"+fileName+".plist")
+		print(value)
+		let newDictionary: NSMutableDictionary = [:]
+		newDictionary.setValue(value, forKey: "Products")
+		newDictionary.write(toFile: path, atomically: false)
+		print("Saved")
 	}
 	
-	private func saveBasket(){
-		
-	}
 	
 	// MARK: - View Lifecycle
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(true)
-		readBasket()
+		readPlist("Basket")
 	}
 
 	override func viewDidLoad() {
