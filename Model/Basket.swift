@@ -43,7 +43,6 @@ struct BasketValues {
 			return nil
 		}
 	}
-	
 	static func getPlist(withName name: String) -> [String]? {
 		if  let path = Bundle.main.path(forResource: name, ofType: "plist"),
 			let xml = FileManager.default.contents(atPath: path) {
@@ -51,5 +50,52 @@ struct BasketValues {
 		}
 		return nil
 	}
+	
+	private func readPlist(_ fileName: String){
+		let paths = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true) as NSArray
+		let documentDirectory = paths[0] as! String
+		let path = documentDirectory.appending("/"+fileName+".plist")
+		print(path)
+		let fileManager = FileManager.default
+		if (!fileManager.fileExists(atPath: path)){
+			if let bundlePath = Bundle.main.path(forResource: fileName, ofType: "plist") {
+				print(bundlePath)
+				guard let result = NSMutableDictionary(contentsOfFile: bundlePath) else { return }
+				print("Bundle file: \(result)")
+				print(result["Total"] ?? "Error")
+				do {
+					try fileManager.copyItem(atPath: bundlePath, toPath: path)
+				} catch {
+					print("Copy Failure")
+				}
+			} else {
+				print("File Not Found")
+			}
+		} else {
+			if let bundlePath = Bundle.main.path(forResource: fileName, ofType: "plist"){
+				print(bundlePath)
+				guard let resultDictionary = NSMutableDictionary(contentsOfFile: path) else { return }
+				print("Bundle file: \(resultDictionary)")
+				print(resultDictionary["Total"] ?? "Error")
+				guard let products = resultDictionary["Products"] as? NSMutableArray else { return }
+				guard let firstProduct = products[0] as? NSMutableDictionary else { return }
+				let nameProduct = firstProduct["Name"]
+				print("Name: \(nameProduct ?? "Error Products")")
+			}
+		}
+	}
+	
+	private func saveBasket(_ fileName: String, value: Product){
+		print("SAVE Basket")
+		let paths = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true) as NSArray
+		let documentDirectory = paths[0] as! String
+		let path = documentDirectory.appending("/"+fileName+".plist")
+		print("Product to add to basket: \(value)")
+		let newDictionary: NSMutableDictionary = [:]
+		newDictionary.setValue(value, forKey: "Products")
+		newDictionary.write(toFile: path, atomically: false)
+		print("Saved")
+	}
+	
 	
 }

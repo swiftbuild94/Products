@@ -35,6 +35,7 @@ class AddProductToBasketViewController: UIViewController, UITextFieldDelegate {
 	@IBAction func BasketButton(_ sender: UIBarButtonItem) {
 		let subTotal: Float = (productPrice ?? 0) * Float(qty)
 		let newProduct = Product(id: productId!, name: productName!, code: productCode!, price: productPrice!, qty: qty, subTotal: subTotal)
+		print("HERE")
 		saveBasket("Basket", value: newProduct)
 	}
 	
@@ -157,10 +158,11 @@ class AddProductToBasketViewController: UIViewController, UITextFieldDelegate {
 	}
 	
 	private func saveBasket(_ fileName: String, value: Product){
+		print("SAVE Basket")
 		let paths = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true) as NSArray
 		let documentDirectory = paths[0] as! String
 		let path = documentDirectory.appending("/"+fileName+".plist")
-		print(value)
+		print("Product to add to basket: \(value)")
 		let newDictionary: NSMutableDictionary = [:]
 		newDictionary.setValue(value, forKey: "Products")
 		newDictionary.write(toFile: path, atomically: false)
@@ -171,7 +173,7 @@ class AddProductToBasketViewController: UIViewController, UITextFieldDelegate {
 	// MARK: - View Lifecycle
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(true)
-		readPlist("Basket")
+//		readPlist("Basket")
 	}
 
 	override func viewDidLoad() {

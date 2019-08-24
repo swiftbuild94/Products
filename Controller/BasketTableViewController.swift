@@ -34,51 +34,43 @@ class BasketTableViewController: UITableViewController {
 	}
 	
 	
-	private func preparePlistForUse(){
-		print("PreparePlistForUse2")
-		let rootPath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, .userDomainMask, true)[0]
-		plistPathInDocument = rootPath.appendingFormat("/Basket.plist")
-		print(plistPathInDocument)
-		if !FileManager.default.fileExists(atPath: plistPathInDocument){
-			guard let plistPathInBundle = (Bundle.main.path(forResource: "Basket", ofType: "plist") ) else {
-				print("Error Coping")
-				return }
-			do {
-				try FileManager.default.copyItem(atPath: plistPathInBundle, toPath: plistPathInDocument)
-				print(plistPathInDocument)
-				print("File succesfully copied")
-			}catch{
-				print("Error occurred while copying file to document \(error)")
+	private func readPlist(_ fileName: String){
+		let paths = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true) as NSArray
+		let documentDirectory = paths[0] as! String
+		let path = documentDirectory.appending("/"+fileName+".plist")
+		print(path)
+		let fileManager = FileManager.default
+		if (!fileManager.fileExists(atPath: path)){
+			if let bundlePath = Bundle.main.path(forResource: fileName, ofType: "plist") {
+				print(bundlePath)
+				guard let result = NSMutableDictionary(contentsOfFile: bundlePath) else { return }
+				print("Bundle file: \(result)")
+				print(result["Total"] ?? "Error")
+				do {
+					try fileManager.copyItem(atPath: bundlePath, toPath: path)
+				} catch {
+					print("Copy Failure")
+				}
+			} else {
+				print("File Not Found")
 			}
-		}else {
-			print("Out")
+		} else {
+			if let bundlePath = Bundle.main.path(forResource: fileName, ofType: "plist"){
+				print(bundlePath)
+				guard let resultDictionary = NSMutableDictionary(contentsOfFile: path) else { return }
+				print("Bundle file: \(resultDictionary)")
+				print(resultDictionary["Total"] ?? "Error")
+				guard let products = resultDictionary["Products"] as? NSMutableArray else { return }
+				guard let firstProduct = products[0] as? NSMutableDictionary else { return }
+				let nameProduct = firstProduct["Name"]
+				print("Name: \(nameProduct ?? "Error Products")")
+			}
 		}
-	}
-	
-	
-	private func readBasket(){
-		self.preparePlistForUse()
-		plistPath = plistPathInDocument
-		print("Plist: \(plistPath ?? "plist is nil")")
-		guard let temp = plistPath else { return }
-		do {
-			let data :NSData = try NSData(contentsOfFile: temp)
-			basketArray = try! PropertyListSerialization.propertyList(from: data as Data, options: [], format: nil) as! [String:Any]
-//			for count in 0..<basketArray!.count{
-//				let product = basketArray![count] as? NSDictionary
-//				print(basketArray![count])
-//				print(product!.value(forKey: "Name")! )
-//			}
-			print(basketArray.self!)
-		} catch {
-			print(error)
-		}
-		self.tableView.reloadData()
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		readBasket()
+		readPlist("Basket")
 //		self.loadProducts()
 		self.tableView.reloadData()
 	}
