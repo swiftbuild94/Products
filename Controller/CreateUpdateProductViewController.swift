@@ -20,57 +20,51 @@ class CreateUpdateProductViewController: UIViewController, UITextFieldDelegate {
 	@IBOutlet weak var txtQty: UITextField!
 	
 	@IBAction func barSave(_ sender: UIBarButtonItem) {
+		print("Save Button Pressed")
 		GetDataForSave()
 	}
-	
+
 	var productCode: String?
 	var productName: String?
 	var productPrice: Float?
 	var productIdCategory: Int?
 	var productQty: Int?
-	var product = Product()
 	
-	//let coreDataManager = CoreDataManager()
 	
-	private func GetDataForSave()->Void{
-		productName = txtProductName.text ?? ""
-		productPrice = Float(txtProductPrice.text ?? "0")
-		print("Qty: \(txtQty.text ?? "error")")
-		productQty = Int(txtQty.text ?? "1")!
-		productIdCategory = 1
+	// MARK: - GetData
+	private func GetDataForSave(){
+		print("GetDataForSave")
+		guard let name = txtProductName.text else { return }
+		guard let strPrice = txtProductPrice.text else { return }
+		guard let price = Float(strPrice) else { return }
 		
-//		product.product = txtProductName.text ?? ""
-//		product.sellprice = Float(txtProductPrice.text ?? "0")!
-//		product.idcategory = 1
-//
-		if ((productName == "")||(productPrice == nil)) {
-			return
-		}
+		productQty = Int(txtQty.text ?? "1")
+		productName = name
+		productPrice = Float(price)
+		print("ProductName: \(String(describing: productName))")
+		print("ProductPrice: \(String(describing: productPrice))")
+		print("Qty: \(txtQty.text ?? "error")")
 		saveProduct()
 	}
 	
+	
+	// MARK: - CoreData
 	private func saveProduct(){
-		let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
-		let contextProduct = appDelegate.persistentContainer.viewContext
+		print("CreateUpdateProduct->saveProduct")
 		
-		let newProduct = NSEntityDescription.insertNewObject(forEntityName: "Product", into: contextProduct )
-		newProduct.setValue(productName, forKey: "product")
-		newProduct.setValue(productCode, forKey: "code")
-		newProduct.setValue(productPrice, forKey: "sellprice")
-		newProduct.setValue(productQty, forKey: "qty")
-		newProduct.setValue(productIdCategory, forKey: "idcategory")
+		let newProduct = Product(product: productName!, code: productCode!, price: productPrice, qty: productQty)
 		do {
-			try contextProduct.save()
-			print("Saved Product: \(self.productName!)")
-			print("Price: \(String(self.productPrice ?? 0.00))")
-			print("Qty: \(String(self.productQty!))")
-//			self.navigationController?.popToRootViewController(animated: true)
-			dismiss(animated: true, completion: nil)
-		}catch{
-			print("Error Saving")
+			try newProduct?.managedObjectContext?.save()
+			print("Saved Product: \(String(describing: productName!))")
+			performSegue(withIdentifier: "unwindToProductsTable", sender: self)
+		} catch {
+			print(error)
 		}
+
 	}
 	
+	
+	// MARK: - View Lifecycle
 //	override func awakeFromNib() {
 //		super.awakeFromNib()
 //	}
@@ -81,11 +75,10 @@ class CreateUpdateProductViewController: UIViewController, UITextFieldDelegate {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		print("Create Update Product View Controller")
-		print("productCode: \(productCode ?? "value not set")")
+		print("Create Update Product View Controller2")
+//		print("productCode: \(productCode ?? "value not set")")
 		if productCode != nil {
 			labelProductCode.text = productCode
-//			product.code = productCode
 			if (Int(productCode!) == nil) {
 				self.txtProductName.placeholder = productCode
 			}
@@ -95,6 +88,11 @@ class CreateUpdateProductViewController: UIViewController, UITextFieldDelegate {
 		self.txtProductPrice.delegate = self
 		self.txtProductName.becomeFirstResponder()
 		//Added Toolbar
+		addToolbar()
+	}
+	
+	// MARK: - Toolbar
+	func addToolbar(){
 		let ViewForDoneButtonOnKeyboard = UIToolbar()
 		let ViewForNextButtonOnKeyboard = UIToolbar()
 		ViewForDoneButtonOnKeyboard.sizeToFit()
@@ -108,6 +106,8 @@ class CreateUpdateProductViewController: UIViewController, UITextFieldDelegate {
 		txtQty.inputAccessoryView = ViewForDoneButtonOnKeyboard
 	}
 	
+	
+	// MARK: - Keyboard
 	@objc func nextKeyboard()  {
 		//Causes the view (or one of its embedded text fields) to resign the first responder status.
 		txtProductPrice.resignFirstResponder()
@@ -138,6 +138,8 @@ class CreateUpdateProductViewController: UIViewController, UITextFieldDelegate {
 		return true
 	}
 	
+	
+	// MARK: - Navigation
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?){
 		/*
 		var destinationVC = segue.destination

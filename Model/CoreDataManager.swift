@@ -9,12 +9,29 @@
 import UIKit
 import CoreData
 
-final class CoreDataManager {
+public class CoreDataManager: NSManagedObject {
 	
-	let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
-	lazy var context = appDelegate.persistentContainer.viewContext
+	private let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+	public lazy var context = appDelegate.persistentContainer.viewContext
 	
-	func fetch<T: NSManagedObject>(_ objectType: T.Type	) -> [T]{
+	public func deleteAllRecords<T: NSManagedObject>(_ objectType: T.Type)->Bool? {
+//		let appDelegate = UIApplication.shared.delegate as? AppDelegate
+//		guard let context = appDelegate?.persistentContainer.viewContext else { return nil }
+		let entityName = String(describing: objectType)
+		let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+		let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+		do {
+			try context.execute(deleteRequest)
+			try context.save()
+			print("All rows delete from \(entityName)")
+			return true
+		} catch {
+			print ("There was an error")
+			return false
+		}
+	}
+	
+	public func fetch<T: NSManagedObject>(_ objectType: T.Type	) -> [T]{
 		let entityName = String(describing: objectType)
 		let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
 		
@@ -29,11 +46,22 @@ final class CoreDataManager {
 		}
 	}
 	
-	func save<T: NSManagedObject>(_ objectType: T.Type){
+	public func save<T: NSManagedObject>(_ objectType: T.Type){
 		if context.hasChanges {
 			do {
 				try context.save()
 				print("Saved Context: \(objectType.self)")
+			} catch {
+				let nserror = error as NSError
+				fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+			}
+		}
+	}
+	
+	public func saveContext () {
+		if context.hasChanges {
+			do {
+				try context.save()
 			} catch {
 				let nserror = error as NSError
 				fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
