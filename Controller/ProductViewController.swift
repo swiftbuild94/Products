@@ -22,10 +22,10 @@ class ProductViewController: UIViewController, UITextFieldDelegate {
 		GetDataForSave()
 	}
 	
-	var productCode: String?
-	var productName: String?
-	var productPrice: Float?
-	var product = Product()
+	private var productName: String?
+	private var productPrice: Float?
+	public var product: Product?
+	public var productCode: String?
 	
 	//let coreDataManager = CoreDataManager()
 	
@@ -33,11 +33,11 @@ class ProductViewController: UIViewController, UITextFieldDelegate {
 		//	let productName = txtProductName.text ?? ""
 		//	let productPrice = Float(txtProductPrice.text ?? "0")!
 		//
-		product.product = txtProductName.text ?? ""
-		product.sellprice = Float(txtProductPrice.text ?? "0")!
+		product!.product = txtProductName.text ?? ""
+		product!.sellprice = Float(txtProductPrice.text ?? "0")!
 		//	product.idcategory = 1
 		
-		if (product.product == "") {
+		if (product?.product == "") {
 			return
 		}
 		saveProduct()
@@ -50,14 +50,14 @@ class ProductViewController: UIViewController, UITextFieldDelegate {
 		let contextProduct = appDelegate.persistentContainer.viewContext
 		
 		let newProduct = NSEntityDescription.insertNewObject(forEntityName: "Product", into: contextProduct )
-		newProduct.setValue(self.product.product, forKey: "product")
-		newProduct.setValue(self.product.code, forKey: "code")
-		newProduct.setValue(self.product.sellprice, forKey: "sellprice")
+		newProduct.setValue(self.product?.product, forKey: "product")
+		newProduct.setValue(self.product?.code, forKey: "code")
+		newProduct.setValue(self.product?.sellprice, forKey: "sellprice")
 		//			newProduct.setValue(self.product.idcategory, forKey: "idcategory")
 		do {
 			try contextProduct.save()
-			print("Saved Product: \(self.product.product)")
-			print("Price: \(String(self.product.sellprice))")
+			print("Saved Product: \(self.product!.product)")
+			print("Price: \(String(self.product!.sellprice))")
 			dismiss(animated: true, completion: nil)
 		}catch{
 			print("Error Saving")
@@ -77,7 +77,7 @@ class ProductViewController: UIViewController, UITextFieldDelegate {
 		print("Product View Controller")
 		if productCode != nil {
 			labelProductCode.text = productCode
-			product.code = productCode!
+			product?.code = productCode!
 		}
 		print("Product Code: \(productCode ?? "error")")
 		self.txtProductName.delegate = self
