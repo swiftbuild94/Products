@@ -144,7 +144,6 @@
 				0E5DE2F12287B46900EECEEA /* Model */,
 				0E8F62ED23CD14BA0013141D /* Support Files */,
 				0E1E2C0C2248538200D3F833 /* Products */,
-				0EEC0CB423CD3D8600BFBCFA /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -224,13 +223,6 @@
 				0EDA67BB23D7B2C8003E20F6 /* SettingsProducts.storyboard */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		0EEC0CB423CD3D8600BFBCFA /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

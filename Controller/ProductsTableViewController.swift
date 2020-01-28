@@ -10,8 +10,6 @@ import UIKit
 import CoreData
 
 class ProductsTableViewController: UITableViewController {
-
-	@IBOutlet weak var tableViewCellProducts: UITableViewCell!
 	
 	@IBOutlet weak var searchBar: UISearchBar!
 	
@@ -24,17 +22,18 @@ class ProductsTableViewController: UITableViewController {
 	
 	// MARK: - CoreData
 	private func loadProducts(){
+		print("Load Products")
 		let appDelegate = UIApplication.shared.delegate as? AppDelegate
 		guard let managedContext = appDelegate?.persistentContainer.viewContext else { return }
 		product = Product(context:managedContext)
 		let fetchRequest: NSFetchRequest<Product> = Product.fetchRequest()
 		let sort = NSSortDescriptor(key: "product", ascending: true)
 		fetchRequest.sortDescriptors = [sort]
-		fetchRequest.sortDescriptors = [sort]
 		fetchRequest.predicate = NSPredicate(format: "product != nil")
 		do {
 			items = try managedContext.fetch(fetchRequest)
-			//items.forEach({ print ($0.value(forKey: "sellprice")!) })
+			items.forEach({ print ($0.value(forKey: "product")!) })
+//			items.forEach({ print ($0.value(forKey: "sellprice")!) })
 		} catch let error as NSError {
 			print("Failed to Fetch: \(error)")
 		}
@@ -79,12 +78,14 @@ class ProductsTableViewController: UITableViewController {
 	
 	// MARK: - View LifeCycle
 	override func viewWillAppear(_ animated: Bool) {
+		print("Product TableView willAppear")
 		super.viewWillAppear(animated)
 		self.loadProducts()
 		self.tableView.reloadData()
 	}
 	
 	override func viewDidLoad() {
+		print("Product TableView DidLoad")
         super.viewDidLoad()
 		tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
 		self.tableView.reloadData()
@@ -115,7 +116,7 @@ class ProductsTableViewController: UITableViewController {
 			let selectedRow = tableView.indexPath(for: cell!)!.row
 			passTruProduct = items[selectedRow] as? Product
 		
-			self.performSegue(withIdentifier: "EditProduct", sender: self)
+			self.performSegue(withIdentifier: "SegueEditProduct", sender: self)
 		}
 	
 	
@@ -163,7 +164,7 @@ class ProductsTableViewController: UITableViewController {
 			alertDelete(at: indexPath)
 		} else if editingStyle == .insert {
 			editProduct(at: indexPath)
-			performSegue(withIdentifier: "EditAlbumSegue", sender: nil)
+			performSegue(withIdentifier: "SegueEditProduct", sender: nil)
 		}
 	}
 	
