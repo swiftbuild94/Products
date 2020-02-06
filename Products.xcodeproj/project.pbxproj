@@ -43,6 +43,7 @@
 		0EDA67BC23D7B2C8003E20F6 /* SettingsProducts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EDA67BB23D7B2C8003E20F6 /* SettingsProducts.storyboard */; };
 		0EDA67BE23D7B80A003E20F6 /* SettingsUsers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EDA67BD23D7B80A003E20F6 /* SettingsUsers.storyboard */; };
 		0EE32448226A787800DDE74C /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE32447226A787800DDE74C /* UserViewController.swift */; };
+		0EE7B3F323EC4D3D0034C903 /* ProductsTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE7B3F223EC4D3C0034C903 /* ProductsTableVC.swift */; };
 		0EFBB35B229E422800B2979F /* AddProductToBasketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFBB35A229E422800B2979F /* AddProductToBasketViewController.swift */; };
 		0EFE2A2D22B64CEF00E5E1CB /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFE2A2C22B64CEF00E5E1CB /* PreviewView.swift */; };
 		0EFF965222C27E21000D52C5 /* BasketTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFF965122C27E20000D52C5 /* BasketTableViewController.swift */; };
@@ -106,6 +107,7 @@
 		0EDA67BB23D7B2C8003E20F6 /* SettingsProducts.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SettingsProducts.storyboard; sourceTree = "<group>"; };
 		0EDA67BD23D7B80A003E20F6 /* SettingsUsers.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SettingsUsers.storyboard; sourceTree = "<group>"; };
 		0EE32447226A787800DDE74C /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
+		0EE7B3F223EC4D3C0034C903 /* ProductsTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsTableVC.swift; sourceTree = "<group>"; };
 		0EFBB35A229E422800B2979F /* AddProductToBasketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductToBasketViewController.swift; sourceTree = "<group>"; };
 		0EFE2A2C22B64CEF00E5E1CB /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		0EFF965122C27E20000D52C5 /* BasketTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketTableViewController.swift; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 				0E5DE2EB2287ABB400EECEEA /* ProductViewController.swift */,
 				0E0898E622B87F2100084E2C /* AddProductViewController.swift */,
 				0EA9420B226FB448003B3595 /* ProductsTableViewController.swift */,
+				0EE7B3F223EC4D3C0034C903 /* ProductsTableVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -374,6 +377,7 @@
 				0E616ACA23CDA93700AA7613 /* Storages+CoreDataClass.swift in Sources */,
 				0E616ACB23CDA93700AA7613 /* Storages+CoreDataProperties.swift in Sources */,
 				0E1CC7AB22D54EF9009A9ED1 /* Basket.swift in Sources */,
+				0EE7B3F323EC4D3D0034C903 /* ProductsTableVC.swift in Sources */,
 				0E616AC923CDA93700AA7613 /* Sell+CoreDataProperties.swift in Sources */,
 				0E616AB823CDA8BB00AA7613 /* Products+CoreDataClass.swift in Sources */,
 				0E5DE2EC2287ABB500EECEEA /* ProductViewController.swift in Sources */,
@@ -476,7 +480,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -531,7 +535,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

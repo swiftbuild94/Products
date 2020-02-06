@@ -1,15 +1,15 @@
 //
-//  ProductsTableViewController.swift
+//  ProductsTableVC.swift
 //  Products
 //
-//  Created by Patricio Benavente on 23/04/19.
-//  Copyright © 2019 Patricio Benavente. All rights reserved.
+//  Created by Patricio Benavente on 6/02/20.
+//  Copyright © 2020 Patricio Benavente. All rights reserved.
 //
 
 import UIKit
 import CoreData
 
-class ProductsTableViewController: UITableViewController {
+class ProductsTableVC: UITableViewController {
 	
 	private var items: [NSManagedObject] = []
 	private let cellId = "CellProducts"
@@ -18,11 +18,11 @@ class ProductsTableViewController: UITableViewController {
 	private var passTruProduct: Product?
 	private var selectedName: String?
 	
+	
 	// MARK: - CoreData
 	private func loadProducts(){
-		print("Load Products")
-		let appDelegate = UIApplication.shared.delegate as? AppDelegate
-		guard let managedContext = appDelegate?.persistentContainer.viewContext else { return }
+		guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+		let managedContext = appDelegate.persistentContainer.viewContext
 		product = Product(context:managedContext)
 		let fetchRequest: NSFetchRequest<Product> = Product.fetchRequest()
 		let sort = NSSortDescriptor(key: "product", ascending: true)
@@ -31,8 +31,8 @@ class ProductsTableViewController: UITableViewController {
 		do {
 			items = try managedContext.fetch(fetchRequest)
 			items.forEach({ print ($0.value(forKey: "product")!) })
-			//			items.forEach({ print ($0.value(forKey: "sellprice")!) })
-			print(items.count)
+			//items.forEach({ print ($0.value(forKey: "sellprice")!) })
+			//print(items.count)
 		} catch let error as NSError {
 			print("Failed to Fetch: \(error)")
 		}
@@ -42,7 +42,6 @@ class ProductsTableViewController: UITableViewController {
 		passTruProduct = items[indexPath.row] as? Product
 		productEditing = true
 	}
-	
 	
 	private func deleteProduct(at indexPath: IndexPath){
 		let productToDelete = items[indexPath.row]
@@ -74,14 +73,12 @@ class ProductsTableViewController: UITableViewController {
 		present(alert, animated: true, completion: nil)
 	}
 	
-	
 	// MARK: - View Lifecycle
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		self.loadProducts()
 		self.tableView.reloadData()
 	}
-	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
@@ -111,9 +108,9 @@ class ProductsTableViewController: UITableViewController {
 		let item = items[indexPath.row]
 		
 		let name = item.value(forKey: "product") as? String
-		let sellPrice = item.value(forKey: "sellPrice") as? Float
+		let sellPrice = item.value(forKey: "sellprice") as? Float
 		//print("Product: \(name ?? "Error")")
-		//print("SellPrice: \(sellPrice ?? "codeError")")
+//		print("sellPrice: \(sellPrice ?? "codeError")")
 		
 		let numberFormatter = NumberFormatter()
 		numberFormatter.numberStyle = .currency
@@ -181,33 +178,16 @@ class ProductsTableViewController: UITableViewController {
 	}
 	*/
 	
+	
 	// MARK: - Keyboard
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 		self.view.endEditing(true)
 	}
 	
-	// MARK: - Navigation
-	@IBAction func unwindToProductsTable(_ sender: UIStoryboardSegue){
-		
-	}
 	
+	// MARK: - Navigation
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		var destinationvc = segue.destination
-		if let navcon = destinationvc as? UINavigationController{
-			destinationvc = navcon.visibleViewController ?? destinationvc
-		}
-		if  let identifier = segue.identifier {
-			switch identifier {
-				case "SegueEditProduct":
-					if productEditing {
-						if let destinationvc = destinationvc as? ProductViewController {
-							destinationvc.title = "Edit Product: " + passTruProduct!.product.capitalized
-							destinationvc.product = passTruProduct
-						}
-				}
-				default:
-					break
-			}
-		}
+		// Get the new view controller using segue.destination.
+		// Pass the selected object to the new view controller.
 	}
 }
