@@ -18,6 +18,9 @@ class ProductsTableVC: UITableViewController {
 	private var passTruProduct: Product?
 	private var selectedName: String?
 	
+	@IBAction func backButton(_ sender: UIBarButtonItem) {
+		dismiss(animated: true, completion: nil)
+	}
 	
 	// MARK: - CoreData
 	private func loadProducts(){
@@ -126,13 +129,9 @@ class ProductsTableVC: UITableViewController {
 			self.tableView.dataSource?.tableView!(self.tableView, commit: .delete, forRowAt: indexPath)
 			return
 		}
-		let moveButton = UITableViewRowAction(style: .destructive, title: "Move") {
-			(action, indexPath) in
-			//				self.tableView.dataSource?.tableView!(tableView, commit: .edit, forRowAt: indexPath)
-			return
-		}
+		
 		deleteButton.backgroundColor = UIColor.red
-		moveButton.backgroundColor = UIColor.blue
+//		moveButton.backgroundColor = UIColor.blue
 		return [deleteButton]
 	}
 	
@@ -152,14 +151,13 @@ class ProductsTableVC: UITableViewController {
 			//objects.remove(at: indexPath.row)
 			tableView.deleteRows(at: [indexPath], with: .fade)
 			//Save the object
-			
 			do{
 				try context.save()
 				self.loadProducts()
 				tableView.reloadData()
 			}
 			catch let error{
-				print("Cannot Save: Reason: \(error)")
+				print("Cannot Delete: Reason: \(error)")
 			}
 		}
 	}
@@ -186,8 +184,27 @@ class ProductsTableVC: UITableViewController {
 	
 	
 	// MARK: - Navigation
+	@IBAction func unwindToProductsTable(_ sender: UIStoryboardSegue){
+		
+	}
+	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		// Get the new view controller using segue.destination.
-		// Pass the selected object to the new view controller.
+		var destinationvc = segue.destination
+		if let navcon = destinationvc as? UINavigationController{
+			destinationvc = navcon.visibleViewController ?? destinationvc
+		}
+		if  let identifier = segue.identifier {
+			switch identifier {
+				case "SegueEditProduct":
+					if productEditing {
+						if let destinationvc = destinationvc as? ProductViewController {
+							destinationvc.title = "Edit Product: " + passTruProduct!.product.capitalized
+							destinationvc.product = passTruProduct
+						}
+				}
+				default:
+					break
+			}
+		}
 	}
 }

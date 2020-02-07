@@ -90,7 +90,7 @@
 			print("Qty: \(qty ?? "codeError")")
 			
 			cell.textLabel?.text = name
-			cell.detailTextLabel?.text = qty ?? "1" 
+			cell.detailTextLabel?.text = qty ?? "?" 
 			return cell
 		}
 		
@@ -106,7 +106,7 @@
 			}
 			deleteButton.backgroundColor = UIColor.red
 			moveButton.backgroundColor = UIColor.blue
-			return [deleteButton]
+			return [moveButton]
 		}
 
 		// Override to support conditional editing of the table view.
