@@ -8,12 +8,19 @@
 //
 
 import CoreData
-import UIKit
 
 public class Product: NSManagedObject {
+	private var appDelegate: AppDelegate?
+	private var context: NSManagedObjectContext?
 	
-	convenience init?(product: String, code:String, price: Float?, qty: Int?){
-		let appDelegate = UIApplication.shared.delegate as? AppDelegate
+	convenience init?(appDelegate: AppDelegate?){
+		guard let context = appDelegate?.persistentContainer.viewContext else { return nil }
+		self.init(entity: Product.entity(), insertInto: context)
+		self.appDelegate = appDelegate
+		self.context = context
+	}
+	
+	convenience init?(_ appDelegate: AppDelegate?, product: String, code:String, price: Float?, qty: Int?){
 		guard let context = appDelegate?.persistentContainer.viewContext else { return nil }
 		self.init(entity: Product.entity(), insertInto: context)
 		self.product = product
@@ -22,4 +29,16 @@ public class Product: NSManagedObject {
 		self.qty = Int64(qty ?? 1)
 	}
 	
+	func loadProducts()->[NSManagedObject]?{
+		let fetchRequest: NSFetchRequest<Product> = Product.fetchRequest()
+		let sort = NSSortDescriptor(key: "product", ascending: true)
+		fetchRequest.sortDescriptors = [sort]
+		fetchRequest.predicate = NSPredicate(format: "product != nil")
+		do {
+			return try context!.fetch(fetchRequest)
+		} catch let error as NSError {
+			print("Failed to Fetch: \(error)")
+			return nil
+		}
+	}
 }

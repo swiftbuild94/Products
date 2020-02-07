@@ -24,11 +24,12 @@ class CreateUpdateProductViewController: UIViewController, UITextFieldDelegate {
 		GetDataForSave()
 	}
 
-	var productCode: String?
-	var productName: String?
-	var productPrice: Float?
-	var productIdCategory: Int?
-	var productQty: Int?
+	public var product: Product?
+	public var productCode: String?
+	private var productName: String?
+	private var productPrice: Float?
+	private var productIdCategory: Int?
+	private var productQty: Int?
 	
 	
 	// MARK: - GetData
@@ -51,8 +52,8 @@ class CreateUpdateProductViewController: UIViewController, UITextFieldDelegate {
 	// MARK: - CoreData
 	private func saveProduct(){
 		print("CreateUpdateProduct->saveProduct")
-		
-		let newProduct = Product(product: productName!, code: productCode!, price: productPrice, qty: productQty)
+		let appDelegate = UIApplication.shared.delegate as? AppDelegate
+		let newProduct = Product(appDelegate, product: productName!, code: productCode!, price: productPrice, qty: productQty)
 		do {
 			try newProduct?.managedObjectContext?.save()
 			print("Saved Product: \(String(describing: productName!))")

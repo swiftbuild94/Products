@@ -11,7 +11,7 @@ import CoreData
 
 class ProductsTableVC: UITableViewController {
 	
-	private var items: [NSManagedObject] = []
+	private var items: [NSManagedObject]?
 	private let cellId = "CellProducts"
 	private var product: Product?
 	private var productEditing = false
@@ -19,40 +19,29 @@ class ProductsTableVC: UITableViewController {
 	private var selectedName: String?
 	
 	@IBAction func backButton(_ sender: UIBarButtonItem) {
-		dismiss(animated: true, completion: nil)
+		print("Back")
+		self.dismiss(animated: true, completion: nil)
 	}
 	
 	// MARK: - CoreData
 	private func loadProducts(){
-		guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-		let managedContext = appDelegate.persistentContainer.viewContext
-		product = Product(context:managedContext)
-		let fetchRequest: NSFetchRequest<Product> = Product.fetchRequest()
-		let sort = NSSortDescriptor(key: "product", ascending: true)
-		fetchRequest.sortDescriptors = [sort]
-		fetchRequest.predicate = NSPredicate(format: "product != nil")
-		do {
-			items = try managedContext.fetch(fetchRequest)
-			items.forEach({ print ($0.value(forKey: "product")!) })
-			//items.forEach({ print ($0.value(forKey: "sellprice")!) })
-			//print(items.count)
-		} catch let error as NSError {
-			print("Failed to Fetch: \(error)")
-		}
+		let appDelegate = UIApplication.shared.delegate as? AppDelegate
+		product = Product(appDelegate: appDelegate)
+		items = product?.loadProducts()
 	}
 	
 	private func editProduct(at indexPath: IndexPath){
-		passTruProduct = items[indexPath.row] as? Product
+		passTruProduct = items![indexPath.row] as? Product
 		productEditing = true
 	}
 	
 	private func deleteProduct(at indexPath: IndexPath){
-		let productToDelete = items[indexPath.row]
+		let productToDelete = items![indexPath.row]
 		guard let context = productToDelete.managedObjectContext else { return }
 		context.delete(productToDelete)
 		do {
 			try context.save()
-			items.remove(at: indexPath.row)
+			items!.remove(at: indexPath.row)
 			tableView.deleteRows(at: [indexPath], with: .automatic)
 		} catch let error as NSError {
 			print("Failed to Delete: \(error)")
@@ -63,7 +52,7 @@ class ProductsTableVC: UITableViewController {
 	
 	// MARK: - Alert
 	private func alertDelete(at indexPath: IndexPath){
-		let alert = UIAlertController(title: "Delete Prodiuct \(String(describing: selectedName!))", message: "Are you sure you want to delete the product \(String(describing: selectedName!))", preferredStyle: UIAlertController.Style.alert)
+		let alert = UIAlertController(title: "Delete Product \(String(describing: selectedName!))", message: "Are you sure you want to delete the product \(String(describing: selectedName!))", preferredStyle: UIAlertController.Style.alert)
 		alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { (action) in
 			alert.dismiss(animated: true, completion: nil)
 			self.deleteProduct(at: indexPath)
@@ -101,14 +90,14 @@ class ProductsTableVC: UITableViewController {
 	
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		// #warning Incomplete implementation, return the number of rows
-		return items.count
+		return items!.count
 	}
 	
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		//let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
 		let cell = UITableViewCell(style: UITableViewCell.CellStyle.value1, reuseIdentifier: cellId)
 		
-		let item = items[indexPath.row]
+		let item = items![indexPath.row]
 		
 		let name = item.value(forKey: "product") as? String
 		let sellPrice = item.value(forKey: "sellprice") as? Float
@@ -122,6 +111,16 @@ class ProductsTableVC: UITableViewController {
 		cell.textLabel?.text = name
 		cell.detailTextLabel?.text = stringSellPrice
 		return cell
+	}
+	
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		let cell = tableView.cellForRow(at: indexPath)
+		tableView.deselectRow(at: indexPath, animated: true)
+		selectedName = cell?.textLabel?.text
+		//		let selectedRow = tableView.indexPathForSelectedRow!.row
+		let selectedRow = tableView.indexPath(for: cell!)!.row
+		passTruProduct = items![selectedRow] as? Product
+		self.performSegue(withIdentifier: "SegueEditProduct", sender: self)
 	}
 	
 	override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
@@ -145,20 +144,7 @@ class ProductsTableVC: UITableViewController {
 	override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 		if editingStyle == .delete {
 			// Delete the row from the data source
-			guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-			let context = appDelegate.persistentContainer.viewContext
-			context.delete(items[indexPath.row] as NSManagedObject)
-			//objects.remove(at: indexPath.row)
-			tableView.deleteRows(at: [indexPath], with: .fade)
-			//Save the object
-			do{
-				try context.save()
-				self.loadProducts()
-				tableView.reloadData()
-			}
-			catch let error{
-				print("Cannot Delete: Reason: \(error)")
-			}
+			alertDelete(at: indexPath)
 		}
 	}
 	
@@ -185,7 +171,6 @@ class ProductsTableVC: UITableViewController {
 	
 	// MARK: - Navigation
 	@IBAction func unwindToProductsTable(_ sender: UIStoryboardSegue){
-		
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -197,7 +182,7 @@ class ProductsTableVC: UITableViewController {
 			switch identifier {
 				case "SegueEditProduct":
 					if productEditing {
-						if let destinationvc = destinationvc as? ProductViewController {
+						if let destinationvc = destinationvc as? CreateUpdateProductViewController {
 							destinationvc.title = "Edit Product: " + passTruProduct!.product.capitalized
 							destinationvc.product = passTruProduct
 						}

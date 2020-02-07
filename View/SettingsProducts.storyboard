@@ -107,7 +107,6 @@
                                     <constraint firstAttribute="height" constant="24" id="WIE-BL-fAK"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Qty" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qkk-xu-QHo">
@@ -168,13 +167,12 @@
                     <navigationItem key="navigationItem" title="Add Product" id="Fc9-lV-jBL">
                         <barButtonItem key="leftBarButtonItem" title="&lt; Cancel" id="Bit-sR-Rxk">
                             <connections>
-                                <segue destination="Y5L-WR-sHJ" kind="unwind" unwindAction="unwindToProductsTable:" id="2UA-mH-bFF"/>
+                                <segue destination="Y5L-WR-sHJ" kind="unwind" identifier="SegueCancel" unwindAction="unwindToProductsTable:" id="9Ni-gq-jYR"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Save" id="lsT-cs-KDu">
                             <connections>
                                 <action selector="barSave:" destination="Tw6-HM-BKa" id="Un0-iy-iO2"/>
-                                <segue destination="Y5L-WR-sHJ" kind="unwind" unwindAction="unwindToProductsTable:" id="bwP-pG-xyp"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -183,6 +181,7 @@
                         <outlet property="txtProductName" destination="DkH-E9-hqO" id="UNg-NI-BL5"/>
                         <outlet property="txtProductPrice" destination="ChF-LW-ahu" id="nXM-xV-9o4"/>
                         <outlet property="txtQty" destination="KZb-EL-uE0" id="PID-KB-QSF"/>
+                        <segue destination="Y5L-WR-sHJ" kind="unwind" identifier="SegueUnwind" unwindAction="unwindToProductsTable:" id="lhg-OZ-bq0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y7t-XR-njG" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -217,7 +216,7 @@
                         <viewLayoutGuide key="safeArea" id="Pub-dM-tTP"/>
                     </view>
                     <navigationItem key="navigationItem" title="Scan Code for New Product" id="v8D-VE-egO">
-                        <barButtonItem key="backBarButtonItem" title="&lt; Back" id="iKH-pK-PfZ"/>
+                        <barButtonItem key="backBarButtonItem" title="Back" id="iKH-pK-PfZ"/>
                     </navigationItem>
                     <connections>
                         <outlet property="messageLabel" destination="bMy-h1-nNt" id="JV7-zY-ayo"/>
