@@ -43,12 +43,14 @@ public class Product: NSManagedObject {
 	}
 	
 	func deleteProduct(_ items: [NSManagedObject]?, at indexPath: IndexPath) ->[NSManagedObject]?{
+		guard let contextDelete = appDelegate?.persistentContainer.viewContext else { return nil }
+		
 		var nsManagedObject = items!
 		let productToDelete = items![indexPath.row]
 		print("Product to Delete: \(productToDelete)")
-		context?.delete(productToDelete)
+		contextDelete.delete(productToDelete)
 		do {
-			try context?.save()
+			try contextDelete.save()
 			nsManagedObject.remove(at: indexPath.row)
 			return nsManagedObject
 		} catch let error as NSError {

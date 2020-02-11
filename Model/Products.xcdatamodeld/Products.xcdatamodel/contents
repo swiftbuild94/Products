@@ -26,7 +26,7 @@
         <attribute name="qty" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="sellprice" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="product" inverseEntity="Category"/>
-        <relationship name="products" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Products" inverseName="product" inverseEntity="Products"/>
+        <relationship name="products" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Products" inverseName="product" inverseEntity="Products"/>
     </entity>
     <entity name="Products" representedClassName="Products" syncable="YES">
         <attribute name="adddate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -71,7 +71,7 @@
         <element name="Buy" positionX="-234.1875" positionY="-669.58984375" width="128" height="133"/>
         <element name="Category" positionX="127.71875" positionY="-833.37890625" width="128" height="73"/>
         <element name="Company" positionX="-419.3359375" positionY="-842.296875" width="128" height="133"/>
-        <element name="Product" positionX="154.1953125" positionY="-684.80859375" width="128" height="133"/>
+        <element name="Product" positionX="154.1953125" positionY="-684.80859375" width="128" height="28"/>
         <element name="Products" positionX="-41.91015625" positionY="-702.71875" width="128" height="223"/>
         <element name="Providers" positionX="-45.84765625" positionY="-848.9921875" width="128" height="73"/>
         <element name="Sell" positionX="-290.2265625" positionY="-487.72265625" width="128" height="103"/>
