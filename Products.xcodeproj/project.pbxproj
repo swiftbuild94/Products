@@ -38,7 +38,6 @@
 		0E8F62F523CD14BC0013141D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F62F123CD14BA0013141D /* AppDelegate.swift */; };
 		0E8F62F923CD17710013141D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E8F62F723CD17700013141D /* LaunchScreen.storyboard */; };
 		0E8F62FA23CD17710013141D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E8F62F823CD17700013141D /* Main.storyboard */; };
-		0EA9420C226FB44A003B3595 /* ProductsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA9420B226FB448003B3595 /* ProductsTableViewController.swift */; };
 		0EBC4CC02290FCF200F63042 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBC4CBF2290FCF200F63042 /* ScanViewController.swift */; };
 		0EDA67BC23D7B2C8003E20F6 /* SettingsProducts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EDA67BB23D7B2C8003E20F6 /* SettingsProducts.storyboard */; };
 		0EDA67BE23D7B80A003E20F6 /* SettingsUsers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EDA67BD23D7B80A003E20F6 /* SettingsUsers.storyboard */; };
@@ -102,7 +101,6 @@
 		0E8F62F123CD14BA0013141D /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0E8F62F723CD17700013141D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0E8F62F823CD17700013141D /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		0EA9420B226FB448003B3595 /* ProductsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsTableViewController.swift; sourceTree = "<group>"; };
 		0EBC4CBF2290FCF200F63042 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScanViewController.swift; path = Controller/ScanViewController.swift; sourceTree = SOURCE_ROOT; };
 		0EDA67BB23D7B2C8003E20F6 /* SettingsProducts.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SettingsProducts.storyboard; sourceTree = "<group>"; };
 		0EDA67BD23D7B80A003E20F6 /* SettingsUsers.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SettingsUsers.storyboard; sourceTree = "<group>"; };
@@ -202,7 +200,6 @@
 				0EE32447226A787800DDE74C /* UserViewController.swift */,
 				0E5DE2EB2287ABB400EECEEA /* ProductViewController.swift */,
 				0E0898E622B87F2100084E2C /* AddProductViewController.swift */,
-				0EA9420B226FB448003B3595 /* ProductsTableViewController.swift */,
 				0EE7B3F223EC4D3C0034C903 /* ProductsTableVC.swift */,
 			);
 			path = Controller;
@@ -365,7 +362,6 @@
 			files = (
 				0EFBB35B229E422800B2979F /* AddProductToBasketViewController.swift in Sources */,
 				0E616AC723CDA93700AA7613 /* Category+CoreDataProperties.swift in Sources */,
-				0EA9420C226FB44A003B3595 /* ProductsTableViewController.swift in Sources */,
 				0E616AC523CDA93700AA7613 /* Buy+CoreDataProperties.swift in Sources */,
 				0E0898ED22B8BF7B00084E2C /* CreateUpdateProductViewController.swift in Sources */,
 				0E616ACC23CDA93700AA7613 /* Company+CoreDataClass.swift in Sources */,

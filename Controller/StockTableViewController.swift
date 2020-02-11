@@ -14,40 +14,14 @@
 		//@IBOutlet weak var tableViewCellProducts: UITableViewCell!
 		private var items: [NSManagedObject] = []
 		let cellId = "CellStock"
+		private var product: Product?
+		
 		
 		// MARK: - CoreData
-		/*
-		private func GetData(){
-		let appDelegate = UIApplication.shared.delegate as! AppDelegate
-		let context = appDelegate.persistentContainer.viewContext
-		
-		let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Product")
-		//request.predicate = NSPredicate(format: "age = %@", "12")
-		request.returnsObjectsAsFaults = false
-		do {
-		let result = try context.fetch(request)
-		for data in result as! [NSManagedObject] {
-		print(data.value(forKey: "product") as! String)
-		}
-		} catch {
-		print("Failed")
-		}
-		}
-		*/
-		
 		private func loadProducts(){
-			guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-			let managedContext = appDelegate.persistentContainer.viewContext
-			let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Product")
-			let sort = NSSortDescriptor(key: "product", ascending: true)
-			fetchRequest.sortDescriptors = [sort]
-			do {
-				items = try managedContext.fetch(fetchRequest)
-				//items.forEach({ print ($0.value(forKey: "product")!) })
-				
-			} catch let error as NSError {
-				print("Failed to Fetch: \(error)")
-			}
+			let appDelegate = UIApplication.shared.delegate as? AppDelegate
+			product = Product(appDelegate: appDelegate)
+			items = (product?.loadProducts())!
 		}
 		
 		// MARK: - View Lifecycle

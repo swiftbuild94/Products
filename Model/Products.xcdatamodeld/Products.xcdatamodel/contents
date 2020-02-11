@@ -6,11 +6,11 @@
         <attribute name="tax" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="total" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <relationship name="company" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Company" inverseName="buy" inverseEntity="Company"/>
-        <relationship name="products" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Products" inverseName="buy" inverseEntity="Products"/>
+        <relationship name="products" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="Products" inverseName="buy" inverseEntity="Products"/>
     </entity>
     <entity name="Category" representedClassName="Category" syncable="YES">
         <attribute name="category" optional="YES" attributeType="String"/>
-        <relationship name="product" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Product" inverseName="category" inverseEntity="Product"/>
+        <relationship name="product" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="Product" inverseName="category" inverseEntity="Product"/>
     </entity>
     <entity name="Company" representedClassName="Company" syncable="YES">
         <attribute name="address" optional="YES" attributeType="String"/>
@@ -18,7 +18,7 @@
         <attribute name="contact" optional="YES" attributeType="String"/>
         <attribute name="phone" optional="YES" attributeType="String"/>
         <attribute name="tax_code" optional="YES" attributeType="String"/>
-        <relationship name="buy" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Buy" inverseName="company" inverseEntity="Buy"/>
+        <relationship name="buy" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="Buy" inverseName="company" inverseEntity="Buy"/>
     </entity>
     <entity name="Product" representedClassName=".Product" syncable="YES">
         <attribute name="code" attributeType="String"/>
@@ -26,7 +26,7 @@
         <attribute name="qty" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="sellprice" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="product" inverseEntity="Category"/>
-        <relationship name="products" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Products" inverseName="product" inverseEntity="Products"/>
+        <relationship name="products" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Products" inverseName="product" inverseEntity="Products"/>
     </entity>
     <entity name="Products" representedClassName="Products" syncable="YES">
         <attribute name="adddate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -54,7 +54,7 @@
     </entity>
     <entity name="Storages" representedClassName="Storages" syncable="YES">
         <attribute name="storage" optional="YES" attributeType="String"/>
-        <relationship name="products" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Products" inverseName="storage" inverseEntity="Products"/>
+        <relationship name="products" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="Products" inverseName="storage" inverseEntity="Products"/>
     </entity>
     <entity name="Users" representedClassName="Users" syncable="YES">
         <attribute name="level" optional="YES" attributeType="String">

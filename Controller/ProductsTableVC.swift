@@ -36,15 +36,16 @@ class ProductsTableVC: UITableViewController {
 	}
 	
 	private func deleteProduct(at indexPath: IndexPath){
-		let productToDelete = items![indexPath.row]
-		guard let context = productToDelete.managedObjectContext else { return }
-		context.delete(productToDelete)
-		do {
-			try context.save()
-			items!.remove(at: indexPath.row)
+		let appDelegate = UIApplication.shared.delegate as? AppDelegate
+		product = Product(appDelegate: appDelegate)
+		let ns: [NSManagedObject]? = product?.deleteProduct(items, at: indexPath)
+		if ns != nil {
+			items = ns
 			tableView.deleteRows(at: [indexPath], with: .automatic)
-		} catch let error as NSError {
-			print("Failed to Delete: \(error)")
+			self.loadProducts()
+			self.tableView.reloadData()
+			print("Deleted")
+		} else {
 			tableView.reloadRows(at: [indexPath], with: .automatic)
 		}
 	}
@@ -52,7 +53,10 @@ class ProductsTableVC: UITableViewController {
 	
 	// MARK: - Alert
 	private func alertDelete(at indexPath: IndexPath){
-		let alert = UIAlertController(title: "Delete Product \(String(describing: selectedName!))", message: "Are you sure you want to delete the product \(String(describing: selectedName!))", preferredStyle: UIAlertController.Style.alert)
+		let item = items![indexPath.row]
+		let name = item.value(forKey: "product") as? String
+		
+		let alert = UIAlertController(title: "Delete Product \(String(describing: name!))", message: "Are you sure you want to delete the product \(String(describing: name!))", preferredStyle: UIAlertController.Style.alert)
 		alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { (action) in
 			alert.dismiss(animated: true, completion: nil)
 			self.deleteProduct(at: indexPath)
@@ -93,6 +97,17 @@ class ProductsTableVC: UITableViewController {
 		return items!.count
 	}
 	
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		let cell = tableView.cellForRow(at: indexPath)
+		tableView.deselectRow(at: indexPath, animated: true)
+		selectedName = cell?.textLabel?.text
+		print("selectedName: \(selectedName!)")
+		//		let selectedRow = tableView.indexPathForSelectedRow!.row
+		let selectedRow = tableView.indexPath(for: cell!)!.row
+		passTruProduct = items![selectedRow] as? Product
+		self.performSegue(withIdentifier: "SegueEditProduct", sender: self)
+	}
+	
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		//let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
 		let cell = UITableViewCell(style: UITableViewCell.CellStyle.value1, reuseIdentifier: cellId)
@@ -106,22 +121,13 @@ class ProductsTableVC: UITableViewController {
 		
 		let numberFormatter = NumberFormatter()
 		numberFormatter.numberStyle = .currency
-		let stringSellPrice = numberFormatter.string(from: sellPrice! as NSNumber)!
+		let stringSellPrice = numberFormatter.string(from: (sellPrice ?? 0) as NSNumber)!
 		
 		cell.textLabel?.text = name
 		cell.detailTextLabel?.text = stringSellPrice
 		return cell
 	}
 	
-	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		let cell = tableView.cellForRow(at: indexPath)
-		tableView.deselectRow(at: indexPath, animated: true)
-		selectedName = cell?.textLabel?.text
-		//		let selectedRow = tableView.indexPathForSelectedRow!.row
-		let selectedRow = tableView.indexPath(for: cell!)!.row
-		passTruProduct = items![selectedRow] as? Product
-		self.performSegue(withIdentifier: "SegueEditProduct", sender: self)
-	}
 	
 	override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 		let deleteButton = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in

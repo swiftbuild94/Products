@@ -41,4 +41,19 @@ public class Product: NSManagedObject {
 			return nil
 		}
 	}
+	
+	func deleteProduct(_ items: [NSManagedObject]?, at indexPath: IndexPath) ->[NSManagedObject]?{
+		var nsManagedObject = items!
+		let productToDelete = items![indexPath.row]
+		print("Product to Delete: \(productToDelete)")
+		context?.delete(productToDelete)
+		do {
+			try context?.save()
+			nsManagedObject.remove(at: indexPath.row)
+			return nsManagedObject
+		} catch let error as NSError {
+			print("Failed to Delete: \(error)")
+			return nil
+		}
+	}
 }

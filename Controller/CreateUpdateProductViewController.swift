@@ -57,7 +57,7 @@ class CreateUpdateProductViewController: UIViewController, UITextFieldDelegate {
 		do {
 			try newProduct?.managedObjectContext?.save()
 			print("Saved Product: \(String(describing: productName!))")
-			performSegue(withIdentifier: "unwindToProductsTable", sender: self)
+			performSegue(withIdentifier: "SegueUnwind", sender: self)
 		} catch {
 			print(error)
 		}
