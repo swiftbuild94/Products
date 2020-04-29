@@ -32,6 +32,33 @@ class CreateUpdateProductViewController: UIViewController, UITextFieldDelegate {
 	private var productQty: Int?
 	
 	
+	// MARK: - View Lifecycle
+	//	override func awakeFromNib() {
+	//		super.awakeFromNib()
+	//	}
+		
+		override func viewWillDisappear(_ animated: Bool) {
+	//		GetDataForSave()
+		}
+		
+		override func viewDidLoad() {
+			super.viewDidLoad()
+			print("Create Update Product View Controller2")
+	//		print("productCode: \(productCode ?? "value not set")")
+			if productCode != nil {
+				labelProductCode.text = productCode
+				if (Int(productCode!) == nil) {
+					self.txtProductName.placeholder = productCode
+				}
+			}
+			print("Product Code: \(productCode ?? "error")")
+			self.txtProductName.delegate = self
+			self.txtProductPrice.delegate = self
+			self.txtProductName.becomeFirstResponder()
+			//Added Toolbar
+			addToolbar()
+		}
+	
 	// MARK: - GetData
 	private func GetDataForSave(){
 		print("GetDataForSave")
@@ -52,10 +79,9 @@ class CreateUpdateProductViewController: UIViewController, UITextFieldDelegate {
 	// MARK: - CoreData
 	private func saveProduct(){
 		print("CreateUpdateProduct->saveProduct")
-		let appDelegate = UIApplication.shared.delegate as? AppDelegate
-		let newProduct = Product(appDelegate, product: productName!, code: productCode!, price: productPrice, qty: productQty)
+		let newProduct = Product(product: productName!, code: productCode!, price: productPrice, qty: productQty)
 		do {
-			try newProduct?.managedObjectContext?.save()
+			try newProduct.managedObjectContext?.save()
 			print("Saved Product: \(String(describing: productName!))")
 			performSegue(withIdentifier: "SegueUnwind", sender: self)
 		} catch {
@@ -64,33 +90,6 @@ class CreateUpdateProductViewController: UIViewController, UITextFieldDelegate {
 
 	}
 	
-	
-	// MARK: - View Lifecycle
-//	override func awakeFromNib() {
-//		super.awakeFromNib()
-//	}
-	
-	override func viewWillDisappear(_ animated: Bool) {
-//		GetDataForSave()
-	}
-	
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		print("Create Update Product View Controller2")
-//		print("productCode: \(productCode ?? "value not set")")
-		if productCode != nil {
-			labelProductCode.text = productCode
-			if (Int(productCode!) == nil) {
-				self.txtProductName.placeholder = productCode
-			}
-		}
-		print("Product Code: \(productCode ?? "error")")
-		self.txtProductName.delegate = self
-		self.txtProductPrice.delegate = self
-		self.txtProductName.becomeFirstResponder()
-		//Added Toolbar
-		addToolbar()
-	}
 	
 	// MARK: - Toolbar
 	func addToolbar(){

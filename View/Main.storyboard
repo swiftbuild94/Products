@@ -22,7 +22,7 @@
                                     <constraint firstAttribute="height" constant="39" id="3JD-Su-Ks2"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                <color key="textColor" red="1" green="0.33305177540000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" systemColor="systemPurpleColor" red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -273,6 +273,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="QuU-s3-tba"/>
                     </view>
+                    <navigationItem key="navigationItem" id="B1d-lW-P49"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f6J-kY-Niw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -286,7 +287,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="selectedImageTintColor" red="1" green="0.33305177540000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="selectedImageTintColor" systemColor="systemPurpleColor" red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="pXh-l5-8uL" kind="relationship" relationship="viewControllers" id="ofJ-B7-TbP"/>
@@ -317,7 +318,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GXW-DG-qt6">
-                                                    <rect key="frame" x="16" y="8" width="62" height="28"/>
+                                                    <rect key="frame" x="20" y="8" width="62" height="28"/>
                                                     <state key="normal" title="Products"/>
                                                     <connections>
                                                         <segue destination="0ZO-1g-875" kind="show" identifier="SegueShowProducts" id="5rw-iM-rpu"/>
@@ -340,7 +341,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eDp-Go-YAw">
-                                                    <rect key="frame" x="16" y="8" width="62" height="28"/>
+                                                    <rect key="frame" x="20" y="8" width="62" height="28"/>
                                                     <state key="normal" title="Storages"/>
                                                 </button>
                                             </subviews>
@@ -360,7 +361,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zIH-NO-owd">
-                                                    <rect key="frame" x="16" y="8" width="40" height="28"/>
+                                                    <rect key="frame" x="20" y="8" width="40" height="28"/>
                                                     <state key="normal" title="Users"/>
                                                     <connections>
                                                         <segue destination="Wl2-Tg-rGU" kind="show" identifier="SegueNewUser" id="X4g-Sd-53d"/>
@@ -457,6 +458,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="yNa-mi-nXY" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="n9L-X9-clf"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="fUo-Z1-pMz">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -583,6 +585,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="z94-1N-ekA" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="fxY-Vl-Asq"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="6Pq-bo-9cX">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -601,6 +604,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nW4-zd-Wiv" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="L8L-bL-JrL"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="PSW-lE-eng">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -749,5 +753,5 @@
         <segue reference="nkQ-6V-1hL"/>
         <segue reference="JY4-LR-N5z"/>
     </inferredMetricsTieBreakers>
-    <color key="tintColor" red="1" green="0.33305177540000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+    <color key="tintColor" systemColor="systemPurpleColor" red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

@@ -50,25 +50,13 @@ class AddProductViewController: UIViewController, UITextFieldDelegate {
 	}
 	
 	private func saveProduct(){
-		let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
-		let contextProduct = appDelegate.persistentContainer.viewContext
-		
-		let newProduct = NSEntityDescription.insertNewObject(forEntityName: "Product", into: contextProduct )
-		newProduct.setValue(productName, forKey: "product")
-		newProduct.setValue(productCode, forKey: "code")
-		newProduct.setValue(productPrice, forKey: "sellprice")
-		newProduct.setValue(productQty, forKey: "qty")
-		newProduct.setValue(productIdCategory, forKey: "idcategory")
-		do {
-			try contextProduct.save()
-			print("Saved Product: \(String(describing: productName!))")
-			print("Price: \(String(describing: productPrice!))")
-//			_ = navigationController?.popViewController(animated: true)
-//			self.navigationController?.popToRootViewController(animated: true)
-			dismiss(animated: true, completion: nil)
-		}catch{
-			print("Error Saving")
-		}
+		product = Product(context: PersistentManager.context)
+		product.setValue(productName, forKey: "product")
+		product.setValue(productCode, forKey: "code")
+		product.setValue(productPrice, forKey: "sellprice")
+		product.setValue(productQty, forKey: "qty")
+		product.setValue(productIdCategory, forKey: "idcategory")
+		PersistentManager.save()
 	}
 	
 	// MARK: - View Lifecycle

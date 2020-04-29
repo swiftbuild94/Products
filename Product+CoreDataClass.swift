@@ -10,19 +10,8 @@
 import CoreData
 
 public class Product: NSManagedObject {
-	private var appDelegate: AppDelegate?
-	private var context: NSManagedObjectContext?
-	
-	convenience init?(appDelegate: AppDelegate?){
-		guard let context = appDelegate?.persistentContainer.viewContext else { return nil }
-		self.init(entity: Product.entity(), insertInto: context)
-		self.appDelegate = appDelegate
-		self.context = context
-	}
-	
-	convenience init?(_ appDelegate: AppDelegate?, product: String, code:String, price: Float?, qty: Int?){
-		guard let context = appDelegate?.persistentContainer.viewContext else { return nil }
-		self.init(entity: Product.entity(), insertInto: context)
+	convenience init(product: String, code:String, price: Float?, qty: Int?){
+		self.init()
 		self.product = product
 		self.code = code
 		self.sellprice = price ?? 0
@@ -30,23 +19,19 @@ public class Product: NSManagedObject {
 	}
 	
 	func loadProducts()->[NSManagedObject]?{
-		let fetchRequest: NSFetchRequest<Product> = Product.fetchRequest()
-		let sort = NSSortDescriptor(key: "product", ascending: true)
-		fetchRequest.sortDescriptors = [sort]
-		fetchRequest.predicate = NSPredicate(format: "product != nil")
-		do {
-			return try context!.fetch(fetchRequest)
-		} catch let error as NSError {
-			print("Failed to Fetch: \(error)")
-			return nil
-		}
+		let items = PersistentManager.fetch(Product.self, sortBy: "product", predicate: "product !=nil") as? NSManagedObject
+		return items
 	}
 	
-	func deleteProduct(_ items: [NSManagedObject]?, at indexPath: IndexPath) ->[NSManagedObject]?{
-		guard let contextDelete = appDelegate?.persistentContainer.viewContext else { return nil }
+	func CreateUpdate(){
 		
+	}
+	
+	func delete(_ items: [NSManagedObject]?, at indexPath: IndexPath) ->[NSManagedObject]?{
 		var nsManagedObject = items!
 		let productToDelete = items![indexPath.row]
+		guard let contextDelete = productToDelete.managedObjectContext else { return nil }
+		
 		print("Product to Delete: \(productToDelete)")
 		contextDelete.delete(productToDelete)
 		do {

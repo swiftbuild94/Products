@@ -23,10 +23,28 @@ class ProductsTableVC: UITableViewController {
 		self.dismiss(animated: true, completion: nil)
 	}
 	
+	
+	// MARK: - View Lifecycle
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		print("ProductsTableVC")
+		self.loadProducts()
+		self.tableView.reloadData()
+	}
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
+		// Uncomment the following line to preserve selection between presentations
+		// self.clearsSelectionOnViewWillAppear = false
+		
+		// Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+		//self.navigationItem.rightBarButtonItem = self.editButtonItem
+	}
+	
+	
 	// MARK: - CoreData
 	private func loadProducts(){
-		let appDelegate = UIApplication.shared.delegate as? AppDelegate
-		product = Product(appDelegate: appDelegate)
+		product = Product()
 		items = product?.loadProducts()
 	}
 	
@@ -36,9 +54,7 @@ class ProductsTableVC: UITableViewController {
 	}
 	
 	private func deleteProduct(at indexPath: IndexPath){
-		let appDelegate = UIApplication.shared.delegate as? AppDelegate
-		product = Product(appDelegate: appDelegate)
-		let ns: [NSManagedObject]? = product?.deleteProduct(items, at: indexPath)
+		let ns: [NSManagedObject]? = product?.delete(items, at: indexPath)
 		if ns != nil {
 			items = ns
 			tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -69,22 +85,6 @@ class ProductsTableVC: UITableViewController {
 		present(alert, animated: true, completion: nil)
 	}
 	
-	// MARK: - View Lifecycle
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-		self.loadProducts()
-		self.tableView.reloadData()
-	}
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
-		// Uncomment the following line to preserve selection between presentations
-		// self.clearsSelectionOnViewWillAppear = false
-		
-		// Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-		//self.navigationItem.rightBarButtonItem = self.editButtonItem
-	}
-	
 	
 	// MARK: - Table view data source
 	override func numberOfSections(in tableView: UITableView) -> Int {
@@ -105,6 +105,7 @@ class ProductsTableVC: UITableViewController {
 		//		let selectedRow = tableView.indexPathForSelectedRow!.row
 		let selectedRow = tableView.indexPath(for: cell!)!.row
 		passTruProduct = items![selectedRow] as? Product
+		print("SegueEditProduct")
 		self.performSegue(withIdentifier: "SegueEditProduct", sender: self)
 	}
 	

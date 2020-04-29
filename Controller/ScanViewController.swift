@@ -134,13 +134,12 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 	
 	// MARK: - CoreData
 	private func getProductData()->Bool {
-		guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return false }
-		let managedContext = appDelegate.persistentContainer.viewContext
+		let context = PersistentManager.context
 		let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Product")
 		let predicate =  NSPredicate(format: "code == %@", stringCode!)
 		fetchRequest.predicate = predicate
 		do {
-			let product = try managedContext.fetch(fetchRequest).first
+			let product = try context.fetch(fetchRequest).first
 			return product == nil
 		} catch let error as NSError {
 			print("Failed to Fetch: \(error)")

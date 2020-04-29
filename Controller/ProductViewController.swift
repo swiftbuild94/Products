@@ -46,22 +46,11 @@ class ProductViewController: UIViewController, UITextFieldDelegate {
 	}
 	
 	private func saveProduct(){
-		let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
-		let contextProduct = appDelegate.persistentContainer.viewContext
-		
-		let newProduct = NSEntityDescription.insertNewObject(forEntityName: "Product", into: contextProduct )
-		newProduct.setValue(self.product?.product, forKey: "product")
-		newProduct.setValue(self.product?.code, forKey: "code")
-		newProduct.setValue(self.product?.sellprice, forKey: "sellprice")
-		//			newProduct.setValue(self.product.idcategory, forKey: "idcategory")
-		do {
-			try contextProduct.save()
-			print("Saved Product: \(self.product!.product)")
-			print("Price: \(String(self.product!.sellprice))")
-			dismiss(animated: true, completion: nil)
-		}catch{
-			print("Error Saving")
-		}
+		product = Product(context: PersistentManager.context)
+		product!.setValue(self.product?.product, forKey: "product")
+		product!.setValue(self.product?.code, forKey: "code")
+		product!.setValue(self.product?.sellprice, forKey: "sellprice")
+		PersistentManager.save()
 	}
 	
 	override func awakeFromNib() {

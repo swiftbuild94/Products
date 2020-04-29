@@ -96,13 +96,12 @@ class AddProductToBasketViewController: UIViewController, UITextFieldDelegate {
 	
 	// MARK: - CoreData
 	private func getProductData(){
-		guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-		let managedContext = appDelegate.persistentContainer.viewContext
+		let context = PersistentManager.context
 		let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Product")
 		let predicate =  NSPredicate(format: "code == %@", productCode!)
 		fetchRequest.predicate = predicate
 		do {
-			let product = try managedContext.fetch(fetchRequest).first
+			let product = try context.fetch(fetchRequest).first
 			if product == nil { return    }
 			productName = product!.value(forKey: "product") as? String
 			productPrice = product!.value(forKey: "sellprice") as? Float

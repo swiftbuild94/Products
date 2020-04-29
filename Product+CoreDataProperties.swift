@@ -21,8 +21,8 @@ extension Product {
     @NSManaged public var product: String
     @NSManaged public var qty: Int64
     @NSManaged public var sellprice: Float
-    @NSManaged public var category: Category?
-    @NSManaged public var products: NSSet?
+//    @NSManaged public var category: Category?
+//    @NSManaged public var products: NSSet?
 
 }
 

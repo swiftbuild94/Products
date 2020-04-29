@@ -16,14 +16,6 @@
 		let cellId = "CellStock"
 		private var product: Product?
 		
-		
-		// MARK: - CoreData
-		private func loadProducts(){
-			let appDelegate = UIApplication.shared.delegate as? AppDelegate
-			product = Product(appDelegate: appDelegate)
-			items = (product?.loadProducts())!
-		}
-		
 		// MARK: - View Lifecycle
 		override func viewWillAppear(_ animated: Bool) {
 			super.viewWillAppear(animated)
@@ -38,6 +30,14 @@
 			
 			// Uncomment the following line to display an Edit button in the navigation bar for this view controller.
 			//self.navigationItem.rightBarButtonItem = self.editButtonItem
+		}
+		
+		
+		// MARK: - CoreData
+		private func loadProducts(){
+			product = Product(context: PersistentManager.context)
+			items = (product!.loadProducts()!)
+			print(items)
 		}
 		
 		
@@ -93,8 +93,7 @@
 		override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 			if editingStyle == .delete {
 				// Delete the row from the data source
-				guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-				let context = appDelegate.persistentContainer.viewContext
+				let context = PersistentManager.context
 				context.delete(items[indexPath.row] as NSManagedObject)
 				//objects.remove(at: indexPath.row)
 				tableView.deleteRows(at: [indexPath], with: .fade)
@@ -106,7 +105,7 @@
 					tableView.reloadData()
 				}
 				catch let error{
-					print("Cannot Save: Reason: \(error)")
+					print("Cannot Save Reason: \(error)")
 				}
 			}
 		}
@@ -138,3 +137,4 @@
 			// Pass the selected object to the new view controller.
 		}
 	}
+	

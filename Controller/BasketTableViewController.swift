@@ -19,13 +19,12 @@ class BasketTableViewController: UITableViewController {
 	
 	private var items: [NSManagedObject] = []
 	private func loadProducts(){
-		guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-		let managedContext = appDelegate.persistentContainer.viewContext
+		let context = PersistentManager.context
 		let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Product")
 		let sort = NSSortDescriptor(key: "product", ascending: true)
 		fetchRequest.sortDescriptors = [sort]
 		do {
-			items = try managedContext.fetch(fetchRequest)
+			items = try context.fetch(fetchRequest)
 			//items.forEach({ print ($0.value(forKey: "product")!) })
 			
 		} catch let error as NSError {
@@ -128,8 +127,7 @@ class BasketTableViewController: UITableViewController {
 	override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 		if editingStyle == .delete {
 			// Delete the row from the data source
-			guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-			let context = appDelegate.persistentContainer.viewContext
+			let context = PersistentManager.context
 //			context.delete(basketArray[indexPath.row] as NSManagedObject)
 			//objects.remove(at: indexPath.row)
 			tableView.deleteRows(at: [indexPath], with: .fade)

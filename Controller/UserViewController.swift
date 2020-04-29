@@ -32,20 +32,11 @@ class UserViewController: UIViewController {
 	
 	
 	private func saveUser(_ user: String, password: String, level: String){
-		let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
-		let context = appDelegate.persistentContainer.viewContext
-		
-		let newUser = NSEntityDescription.insertNewObject(forEntityName: "Users", into: context )
-		newUser.setValue(user, forKey: "username")
-		newUser.setValue(password, forKey: "password")
-		newUser.setValue(level, forKey: "level")
-		do {
-			try context.save()
-			print("Saved User: \(user)")
-			dismiss(animated: true, completion: nil)
-		}catch{
-			print("Error Saving")
-		}
+//		user = User(context: PersistentManager.context)
+//		user.setValue(user, forKey: "username")
+//		user.setValue(password, forKey: "password")
+//		user.setValue(level, forKey: "level")
+//		PersistentManager.save()
 	}
 	
 	var usersnameArr = [String]()
@@ -53,9 +44,7 @@ class UserViewController: UIViewController {
 	var levelArr = [String]()
 	
 	private func SearchUser(user: String){
-		let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
-		let context = appDelegate.persistentContainer.viewContext
-		
+		let context = PersistentManager.context
 		let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Users")
 		request.returnsObjectsAsFaults = false
 		request.predicate = NSPredicate(format: "username=%@", ""+user)
@@ -86,8 +75,7 @@ class UserViewController: UIViewController {
 	}
 	
 	private func getUser(){
-		let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
-		let context = appDelegate.persistentContainer.viewContext
+		let context = PersistentManager.context
 		//let entity = NSEntityDescription.entity(forEntityName: "Users", in: context)
 		
 		let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Users")
