@@ -104,6 +104,7 @@
 		0EBC4CBF2290FCF200F63042 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScanViewController.swift; path = Controller/ScanViewController.swift; sourceTree = SOURCE_ROOT; };
 		0EDA67BB23D7B2C8003E20F6 /* SettingsProducts.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SettingsProducts.storyboard; sourceTree = "<group>"; };
 		0EDA67BD23D7B80A003E20F6 /* SettingsUsers.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SettingsUsers.storyboard; sourceTree = "<group>"; };
+		0EE2A5DD24639C94007485A5 /* Products.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Products.entitlements; sourceTree = "<group>"; };
 		0EE32447226A787800DDE74C /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		0EE7B3F223EC4D3C0034C903 /* ProductsTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsTableVC.swift; sourceTree = "<group>"; };
 		0EFBB35A229E422800B2979F /* AddProductToBasketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductToBasketViewController.swift; sourceTree = "<group>"; };
@@ -150,6 +151,7 @@
 		0E1E2C0C2248538200D3F833 /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				0EE2A5DD24639C94007485A5 /* Products.entitlements */,
 				0E1E2C0B2248538200D3F833 /* Products.app */,
 				0E1E2C22224853A800D3F833 /* ProductsTests.xctest */,
 				0E1E2C2D224853A800D3F833 /* ProductsUITests.xctest */,
@@ -545,6 +547,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Products.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = U4M526LLNP;
 				INFOPLIST_FILE = Model/Info.plist;
@@ -555,6 +558,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = pbp.Products;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -564,6 +568,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Products.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = U4M526LLNP;
 				INFOPLIST_FILE = Model/Info.plist;
@@ -574,6 +579,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = pbp.Products;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

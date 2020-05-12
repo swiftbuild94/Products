@@ -11,20 +11,21 @@ import CoreData
 
 public class Product: NSManagedObject {
 	convenience init(product: String, code:String, price: Float?, qty: Int?){
-		self.init()
+		self.init(context: PersistentManager.context)
 		self.product = product
 		self.code = code
 		self.sellprice = price ?? 0
 		self.qty = Int64(qty ?? 1)
+//		PersistentManager.save()
 	}
 	
 	func loadProducts()->[NSManagedObject]?{
-		let items = PersistentManager.fetch(Product.self, sortBy: "product", predicate: "product !=nil") as? NSManagedObject
+		let items = PersistentManager.fetch(Product.self, sortBy: "product", predicate: "product !=nil") as [NSManagedObject]
 		return items
 	}
 	
-	func CreateUpdate(){
-		
+	func createUpdate(){
+		let _ = PersistentManager.save()
 	}
 	
 	func delete(_ items: [NSManagedObject]?, at indexPath: IndexPath) ->[NSManagedObject]?{
@@ -37,6 +38,7 @@ public class Product: NSManagedObject {
 		do {
 			try contextDelete.save()
 			nsManagedObject.remove(at: indexPath.row)
+			print("Product Deleted")
 			return nsManagedObject
 		} catch let error as NSError {
 			print("Failed to Delete: \(error)")

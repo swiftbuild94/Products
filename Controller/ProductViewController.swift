@@ -50,7 +50,7 @@ class ProductViewController: UIViewController, UITextFieldDelegate {
 		product!.setValue(self.product?.product, forKey: "product")
 		product!.setValue(self.product?.code, forKey: "code")
 		product!.setValue(self.product?.sellprice, forKey: "sellprice")
-		PersistentManager.save()
+		let _ = PersistentManager.save()
 	}
 	
 	override func awakeFromNib() {

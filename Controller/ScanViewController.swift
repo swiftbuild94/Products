@@ -16,12 +16,35 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 	
 	var stringCode: String?
 	var foundCode: Bool = false
-	
-	// MARK: - Camara
 	var avCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer()
 	let avCaptureSession = AVCaptureSession()
 	var qrCodeFrame: UIView!
 	
+	
+	// MARK: - View Lifecycle
+		override func viewDidLoad() {
+			super.viewDidLoad()
+			foundCode = false
+			if authorizeCamara() {
+				scanCode()
+				let tabCamara = tabBarController?.tabBar.items?[0]
+				if !tabCamara!.isEnabled {
+					tabCamara?.isEnabled = true
+				}
+			}else{
+				tabBarController?.tabBar.items?[0].isEnabled = false
+				self.tabBarController?.selectedIndex = 1
+			}
+	//		tabBarController?.tabBar.items?.badgeTextAttributes(for: UIControl.State)
+			
+	//		tabBarController?.tabBar.items?.forEach { $0.isEnabled = false }
+	//		tabBarController?.tabBar.items?[0].isEnabled = false
+			
+	//		print("Basket Date is: \(String(describing: BasketValues.get()?.Date))")
+	//		print("Basket: \(String(describing: BasketValues.getPlist(withName: "Basket")))")
+		}
+	
+	// MARK: - Camara
 	private let supportedCodeTypes: [AVMetadataObject.ObjectType] = [.upce, .code39, .code39Mod43, .code93, .code128, .ean8, .ean13, .aztec, .pdf417, .itf14, .dataMatrix, .interleaved2of5, .qr]
 	
 	
@@ -49,6 +72,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 	
 	
 	private func scanCode() {
+		self.messageLabel.text = "Scanning Bar Code…"
 		guard let avCaptureDevice = AVCaptureDevice.default(for: AVMediaType.video) else {
 			print("No Camara")
 			return
@@ -93,28 +117,28 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 			}
 			guard let stringValue = readableObject.stringValue else { return }
 			stringCode = stringValue
-			
+			print("Code: \(String(describing: stringCode))")
 			AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+			self.messageLabel.text = stringCode
 			self.avCaptureSession.stopRunning()
-			self.messageLabel.text = self.stringCode
 			//				previewView.videoPreviewLayer.opacity = 0
-			UIView.animate(withDuration: 0.25) {
-//				print("Animation")
-				//previewView.videoPreviewLayer.opacity = 0
-				if self.supportedCodeTypes.contains(metadataObject.type) {
-					self.qrCodeFrame.isHidden = false
-					let barCodeObject = self.avCaptureVideoPreviewLayer.transformedMetadataObject(for: metadataObject)
-					self.qrCodeFrame.frame = barCodeObject!.bounds
-				}
-			}
+//			UIView.animate(withDuration: 0.25) {
+////				print("Animation")
+//				//previewView.videoPreviewLayer.opacity = 0
+//				if self.supportedCodeTypes.contains(metadataObject.type) {
+//					self.qrCodeFrame.isHidden = false
+//					let barCodeObject = self.avCaptureVideoPreviewLayer.transformedMetadataObject(for: metadataObject)
+//					self.qrCodeFrame.frame = barCodeObject!.bounds
+//				}
+//			}
 			
 			let isProductData = self.getProductData()
-			let timeDelay = DispatchTime.now() + .seconds(1)
-			DispatchQueue.main.asyncAfter(deadline: timeDelay, execute: {
+//			let timeDelay = DispatchTime.now() + .seconds(1)
+//			DispatchQueue.main.asyncAfter(deadline: timeDelay, execute: {
 				print("Enter Main Queue")
 //				print("Exits Main Queue")
 //				previewView.videoPreviewLayer.opacity = 0
-				self.messageLabel.text = "Scanning Bar Code…"
+//				self.messageLabel.text = "Scanning Bar Code…"
 				self.qrCodeFrame.isHidden = true
 				self.qrCodeFrame.frame = CGRect.zero
 				self.avCaptureSession.startRunning()
@@ -127,10 +151,11 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 				} else {
 					self.performSegue(withIdentifier: "segueAddProductToBasket", sender: self)
 				}
-			})
+//			})
 			print("Out of Main Queue")
 		}
 	}
+	
 	
 	// MARK: - CoreData
 	private func getProductData()->Bool {
@@ -164,29 +189,6 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 		present(alert, animated: true, completion: nil)
 	}
 	
-	// MARK: - View Lifecycle
-	override func viewDidLoad() {
-        super.viewDidLoad()
-		foundCode = false
-		if authorizeCamara() {
-			scanCode()
-			let tabCamara = tabBarController?.tabBar.items?[0]
-			if !tabCamara!.isEnabled {
-				tabCamara?.isEnabled = true
-			}
-		}else{
-			tabBarController?.tabBar.items?[0].isEnabled = false
-			self.tabBarController?.selectedIndex = 1
-		}
-//		tabBarController?.tabBar.items?.badgeTextAttributes(for: UIControl.State)
-		
-//		tabBarController?.tabBar.items?.forEach { $0.isEnabled = false }
-//		tabBarController?.tabBar.items?[0].isEnabled = false
-		
-//		print("Basket Date is: \(String(describing: BasketValues.get()?.Date))")
-//		print("Basket: \(String(describing: BasketValues.getPlist(withName: "Basket")))")
-    }
-	
 	
     // MARK: - Navigation
 	@IBAction func unwindToScanProduct(_ sender: UIStoryboardSegue){
@@ -194,6 +196,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		self.messageLabel.text = "Scanning Bar Code…"
 		var destinationvc = segue.destination
 		if let navcon = destinationvc as? UINavigationController {
 			destinationvc = navcon.visibleViewController ?? destinationvc
@@ -209,6 +212,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 				}
 			}
 		case "segueAddNewProduct":
+//			print("SegueNewProduct: \(String(describing: stringCode))")
 			if let newVC = destinationvc as? AddProductViewController {
 				if stringCode != nil {
 					//newVC.labelProductCode.text = stringCode

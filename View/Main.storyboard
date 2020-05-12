@@ -126,7 +126,7 @@
                                 </connections>
                             </stepper>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="95R-tO-COT" firstAttribute="top" secondItem="4NE-wn-ujl" secondAttribute="top" constant="25" id="5bW-RG-HC4"/>
                             <constraint firstItem="Dxg-Y7-jlN" firstAttribute="leading" secondItem="2lH-hK-7ic" secondAttribute="trailing" constant="10" id="77e-lS-IU9"/>
@@ -261,7 +261,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="8wn-IU-rL9" firstAttribute="top" secondItem="mQa-lR-iTJ" secondAttribute="bottom" constant="25" id="3Ae-8X-TU0"/>
                             <constraint firstItem="QuU-s3-tba" firstAttribute="trailing" secondItem="HmF-ou-r0H" secondAttribute="trailing" constant="14" id="Eow-4h-PLL"/>
@@ -318,7 +318,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GXW-DG-qt6">
-                                                    <rect key="frame" x="20" y="8" width="62" height="28"/>
+                                                    <rect key="frame" x="16" y="8" width="62" height="28"/>
                                                     <state key="normal" title="Products"/>
                                                     <connections>
                                                         <segue destination="0ZO-1g-875" kind="show" identifier="SegueShowProducts" id="5rw-iM-rpu"/>
@@ -341,7 +341,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eDp-Go-YAw">
-                                                    <rect key="frame" x="20" y="8" width="62" height="28"/>
+                                                    <rect key="frame" x="16" y="8" width="62" height="28"/>
                                                     <state key="normal" title="Storages"/>
                                                 </button>
                                             </subviews>
@@ -361,7 +361,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zIH-NO-owd">
-                                                    <rect key="frame" x="20" y="8" width="40" height="28"/>
+                                                    <rect key="frame" x="16" y="8" width="40" height="28"/>
                                                     <state key="normal" title="Users"/>
                                                     <connections>
                                                         <segue destination="Wl2-Tg-rGU" kind="show" identifier="SegueNewUser" id="X4g-Sd-53d"/>
@@ -534,7 +534,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="5ZD-oq-AEJ" firstAttribute="bottom" secondItem="0HO-Ql-da8" secondAttribute="bottom" id="8Ky-o9-qLJ"/>
                             <constraint firstItem="zfh-uf-up9" firstAttribute="leading" secondItem="0HO-Ql-da8" secondAttribute="leading" id="9we-TO-zwD"/>
@@ -564,7 +564,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="IRp-Eb-0Q1">
                             <connections>
-                                <segue destination="yNa-mi-nXY" kind="show" identifier="SegueFromNewToBasket" id="JY4-LR-N5z"/>
+                                <action selector="barSave:" destination="42p-xF-OlT" id="JkE-5O-uBC"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -572,7 +572,8 @@
                         <outlet property="labelProductCode" destination="09x-OD-0jJ" id="8jd-42-5Vr"/>
                         <outlet property="txtProductName" destination="5ZD-oq-AEJ" id="63G-u5-ZG7"/>
                         <outlet property="txtProductPrice" destination="l61-g8-MLn" id="vFs-u5-3wS"/>
-                        <outlet property="txtProductQty" destination="UEb-gN-fex" id="WEU-lq-d3G"/>
+                        <outlet property="txtQty" destination="UEb-gN-fex" id="aBN-WK-fB8"/>
+                        <segue destination="PP0-Dc-eJQ" kind="show" identifier="SegueFromNewToBasket" id="nSO-4f-sbT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2hv-JV-uVU" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -606,7 +607,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="L8L-bL-JrL"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="PSW-lE-eng">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -674,7 +675,7 @@
             <objects>
                 <tableViewController id="DIg-VM-QVu" customClass="BasketTableViewController" customModule="Products" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" allowsSelectionDuringEditing="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="xa9-f7-M1V">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
@@ -750,8 +751,8 @@
         <image name="shoppingcarticon" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="nkQ-6V-1hL"/>
-        <segue reference="JY4-LR-N5z"/>
+        <segue reference="paT-Eu-N5h"/>
+        <segue reference="nSO-4f-sbT"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" systemColor="systemPurpleColor" red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

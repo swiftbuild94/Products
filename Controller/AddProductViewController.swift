@@ -10,15 +10,10 @@ import UIKit
 import CoreData
 
 class AddProductViewController: UIViewController, UITextFieldDelegate {
-	
 	@IBOutlet weak var txtProductName: UITextField!
-	
 	@IBOutlet weak var txtProductPrice: UITextField!
-	
 	@IBOutlet weak var labelProductCode: UILabel!
-	
 	@IBOutlet weak var txtQty: UITextField!
-	
 	@IBAction func barSave(_ sender: UIBarButtonItem) {
 		GetDataForSave()
 	}
@@ -27,36 +22,39 @@ class AddProductViewController: UIViewController, UITextFieldDelegate {
 	var productName: String?
 	var productPrice: Float?
 	var productIdCategory: Int?
-	var productQty: Int?
-	var product = Product()
+	var productQty: Int64?
+	var product: Product?
 	
 	// MARK: - CoreData
 	//let coreDataManager = CoreDataManager()
 	
-	private func GetDataForSave()->Void{
+	private func GetDataForSave(){
 		productName = txtProductName.text ?? ""
 		productPrice = Float(txtProductPrice.text ?? "0")
-		productQty = Int(txtQty.text ?? "1")!
+		productQty = Int64(txtQty.text ?? "1")!
 		productIdCategory = 1
-		
-//		product.product = txtProductName.text ?? ""
-//		product.sellprice = Float(txtProductPrice.text ?? "0")!
-//		product.idcategory = 1
-		
-		if ((productName == "")||(productPrice == nil)) {
+		print("GetDataForSave")
+		if ((productName == "")||(productPrice == 0)) {
 			return
 		}
 		saveProduct()
 	}
 	
 	private func saveProduct(){
+		print("Save Product")
+		guard let productName = txtProductName.text else { return }
+		guard let productPrice = Float(txtProductPrice!.text!) else { return }
+		guard let productQty = Int64(txtQty!.text!) else { return }
+		
+		PersistentManager.context.reset()
 		product = Product(context: PersistentManager.context)
-		product.setValue(productName, forKey: "product")
-		product.setValue(productCode, forKey: "code")
-		product.setValue(productPrice, forKey: "sellprice")
-		product.setValue(productQty, forKey: "qty")
-		product.setValue(productIdCategory, forKey: "idcategory")
-		PersistentManager.save()
+		product?.product = productName
+		product?.code = productCode!
+		product?.sellprice = productPrice
+		product?.qty = productQty
+		if PersistentManager.save() {
+			performSegue(withIdentifier: "SegueFromNewToBasket", sender: self)
+		}
 	}
 	
 	// MARK: - View Lifecycle
@@ -70,7 +68,7 @@ class AddProductViewController: UIViewController, UITextFieldDelegate {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		print("Add Product View Controller")
+		print("Add Product View Controller!")
 		if productCode != nil {
 			labelProductCode.text = productCode
 //			product.code = productCode
@@ -132,15 +130,21 @@ class AddProductViewController: UIViewController, UITextFieldDelegate {
 	}
 	
 	// MARK: - Navigation
-	override func prepare(for segue: UIStoryboardSegue, sender: Any?){
-		/*
-		var destinationVC = segue.destination
-		if let navcon = destinationVC as? UINavigationController {
-		destinationVC = navcon.visibleViewController ?? destinationVC
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		var destinationvc = segue.destination
+		if let navcon = destinationvc as? UINavigationController{
+			destinationvc = navcon.visibleViewController ?? destinationvc
 		}
-		if let newVC = destinationVC as? ProductsTableViewController {
-		
+		if  let identifier = segue.identifier {
+			switch identifier {
+				case "SegueFromNewToBasket":
+					print("SegueFromNewToBasket: \(String(describing: productCode))")
+					if let destinationvc = destinationvc as? AddProductToBasketViewController {
+						destinationvc.productCode = productCode
+				}
+				default:
+					break
+			}
 		}
-		*/
 	}
 }

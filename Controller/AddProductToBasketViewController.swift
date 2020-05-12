@@ -10,28 +10,20 @@ import UIKit
 import CoreData
 
 class AddProductToBasketViewController: UIViewController, UITextFieldDelegate {
-
 	@IBOutlet weak var labelProductName: UILabel!
-	
 	@IBOutlet weak var labelProductPrice: UILabel!
-	
 	@IBOutlet weak var labelProductCode: UILabel!
-
 	@IBOutlet weak var textQty: UITextField!
-	
 	@IBOutlet weak var labelSubtotal: UILabel!
-	
 	@IBAction func stepper(_ sender: UIStepper) {
 		var stepper = 1
 		stepper = Int(sender.value)
 		textQty.text = String(stepper)
 		validateTextQty()
 	}
-	
 	@IBAction func barCancel(_ sender: UIBarButtonItem) {
 		dismiss(animated: true, completion: nil)
 	}
-	
 	@IBAction func BasketButton(_ sender: UIBarButtonItem) {
 		let subTotal: Float = (productPrice ?? 0) * Float(qty)
 		let newProduct = Product(id: productId!, name: productName!, code: productCode!, price: productPrice!, qty: qty, subTotal: subTotal)
@@ -39,10 +31,9 @@ class AddProductToBasketViewController: UIViewController, UITextFieldDelegate {
 		saveBasket("Basket", value: newProduct)
 	}
 	
-	
 	// MARK: - Variables
-	var productCode: String? = nil
-	var productId: Int? = nil
+	public var productCode: String? = nil
+	public var productId: Int? = nil
 	private var productName: String? = nil
 	private var qty = 1
 	private var productPrice: Float? = nil
@@ -69,7 +60,7 @@ class AddProductToBasketViewController: UIViewController, UITextFieldDelegate {
 	}
 	
 	var basket: Basket?
-	var product: NSMutableDictionary?
+//	var product: NSMutableDictionary?
 	
 	// MARK: - Processing Qty & Subtotal
 	private func validateTextQty(){

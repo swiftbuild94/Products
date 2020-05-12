@@ -44,14 +44,15 @@ class ProductsTableVC: UITableViewController {
 	
 	// MARK: - CoreData
 	private func loadProducts(){
-		product = Product()
+		product = Product(context: PersistentManager.context)
 		items = product?.loadProducts()
 	}
 	
-	private func editProduct(at indexPath: IndexPath){
-		passTruProduct = items![indexPath.row] as? Product
-		productEditing = true
-	}
+//	private func editProduct(at indexPath: IndexPath){
+//		passTruProduct = items![indexPath.row] as? Product
+//		print("EDIT PRODUCT: \(passTruProduct?.product ?? "EMPTY")")
+//		productEditing = true
+//	}
 	
 	private func deleteProduct(at indexPath: IndexPath){
 		let ns: [NSManagedObject]? = product?.delete(items, at: indexPath)
@@ -105,7 +106,7 @@ class ProductsTableVC: UITableViewController {
 		//		let selectedRow = tableView.indexPathForSelectedRow!.row
 		let selectedRow = tableView.indexPath(for: cell!)!.row
 		passTruProduct = items![selectedRow] as? Product
-		print("SegueEditProduct")
+		print("SegueEditProductTable: \(passTruProduct?.product ?? "EMPTY")")
 		self.performSegue(withIdentifier: "SegueEditProduct", sender: self)
 	}
 	
@@ -186,14 +187,16 @@ class ProductsTableVC: UITableViewController {
 			destinationvc = navcon.visibleViewController ?? destinationvc
 		}
 		if  let identifier = segue.identifier {
+			print("IDENTIFIER")
 			switch identifier {
 				case "SegueEditProduct":
-					if productEditing {
+//					if productEditing {
+						print("SegueEditProduct: \(passTruProduct!.product)")
 						if let destinationvc = destinationvc as? CreateUpdateProductViewController {
 							destinationvc.title = "Edit Product: " + passTruProduct!.product.capitalized
 							destinationvc.product = passTruProduct
 						}
-				}
+//				}
 				default:
 					break
 			}

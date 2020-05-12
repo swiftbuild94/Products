@@ -10,18 +10,12 @@ import UIKit
 import CoreData
 
 class CreateUpdateProductViewController: UIViewController, UITextFieldDelegate {
-	
 	@IBOutlet weak var txtProductName: UITextField!
-	
 	@IBOutlet weak var txtProductPrice: UITextField!
-	
 	@IBOutlet weak var labelProductCode: UILabel!
-	
 	@IBOutlet weak var txtQty: UITextField!
-	
 	@IBAction func barSave(_ sender: UIBarButtonItem) {
-		print("Save Button Pressed")
-		GetDataForSave()
+		saveProduct()
 	}
 
 	public var product: Product?
@@ -29,67 +23,82 @@ class CreateUpdateProductViewController: UIViewController, UITextFieldDelegate {
 	private var productName: String?
 	private var productPrice: Float?
 	private var productIdCategory: Int?
-	private var productQty: Int?
-	
+	private var productQty: Int64?
+	private var saving = false
 	
 	// MARK: - View Lifecycle
 	//	override func awakeFromNib() {
 	//		super.awakeFromNib()
 	//	}
-		
-		override func viewWillDisappear(_ animated: Bool) {
-	//		GetDataForSave()
-		}
-		
-		override func viewDidLoad() {
-			super.viewDidLoad()
-			print("Create Update Product View Controller2")
-	//		print("productCode: \(productCode ?? "value not set")")
-			if productCode != nil {
-				labelProductCode.text = productCode
-				if (Int(productCode!) == nil) {
-					self.txtProductName.placeholder = productCode
-				}
+	
+	// override func viewWillDisappear(_ animated: Bool) {
+	// 		super.viewWillDissappear()
+	// 		getDataForSave()
+	// }
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		existingProduct()
+		setup()
+	}
+	
+	private func existingProduct() {
+		print("Create Update Product: \(product?.product ?? "NEW")")
+		//		print("productCode: \(productCode ?? "value not set")")
+		if product != nil {
+			productCode = product!.code
+			txtProductName.text = product!.product
+			txtProductPrice.text = String(product!.sellprice)
+			txtQty.text = String(product!.qty)
+		}else{
+			if productCode != nil && (Int(productCode!) == nil){
+				self.txtProductName.placeholder = productCode
 			}
-			print("Product Code: \(productCode ?? "error")")
-			self.txtProductName.delegate = self
-			self.txtProductPrice.delegate = self
-			self.txtProductName.becomeFirstResponder()
-			//Added Toolbar
-			addToolbar()
 		}
+		labelProductCode.text = productCode
+		print("Product Code: \(productCode ?? "ERROR")")
+	}
+	
+	private func setup() {
+		self.txtProductName.delegate = self
+		self.txtProductPrice.delegate = self
+		self.txtProductName.becomeFirstResponder()
+		//Added Toolbar
+		addToolbar()
+	}
 	
 	// MARK: - GetData
-	private func GetDataForSave(){
-		print("GetDataForSave")
-		guard let name = txtProductName.text else { return }
-		guard let strPrice = txtProductPrice.text else { return }
-		guard let price = Float(strPrice) else { return }
-		
-		productQty = Int(txtQty.text ?? "1")
-		productName = name
-		productPrice = Float(price)
-		print("ProductName: \(String(describing: productName))")
-		print("ProductPrice: \(String(describing: productPrice))")
-		print("Qty: \(txtQty.text ?? "error")")
+	private func getDataForSave(){
+		productName = txtProductName.text ?? ""
+		productPrice = Float(txtProductPrice.text ?? "0")
+		productQty = Int64(txtQty.text ?? "1")
+		productIdCategory = 1
+		print("GetDataForSave2")
+		if ((productName == "")||(productPrice == 0)) {
+			return
+		}
 		saveProduct()
 	}
 	
 	
 	// MARK: - CoreData
 	private func saveProduct(){
-		print("CreateUpdateProduct->saveProduct")
-		let newProduct = Product(product: productName!, code: productCode!, price: productPrice, qty: productQty)
-		do {
-			try newProduct.managedObjectContext?.save()
-			print("Saved Product: \(String(describing: productName!))")
-			performSegue(withIdentifier: "SegueUnwind", sender: self)
-		} catch {
-			print(error)
+		guard let productName = txtProductName.text else { return }
+		guard let productPrice = Float(txtProductPrice!.text!) else { return }
+		guard let productQty = Int64(txtQty!.text!) else { return }
+		if productName == "" { return }
+		
+		PersistentManager.context.reset()
+		product = Product(context: PersistentManager.context)
+		product?.product = productName
+		product?.code = productCode!
+		product?.sellprice = productPrice
+		product?.qty = productQty
+		if PersistentManager.save() {
+			dismiss(animated: true, completion: nil)
 		}
-
 	}
-	
+
 	
 	// MARK: - Toolbar
 	func addToolbar(){
@@ -116,7 +125,7 @@ class CreateUpdateProductViewController: UIViewController, UITextFieldDelegate {
 	
 	@objc func dismissKeyboard()  {
 		//Causes the view (or one of its embedded text fields) to resign the first responder status.
-		self.GetDataForSave()
+		self.getDataForSave()
 		self.view.endEditing(true)
 	}
 	
@@ -133,22 +142,9 @@ class CreateUpdateProductViewController: UIViewController, UITextFieldDelegate {
 			txtQty.becomeFirstResponder()
 		}else if (textField === txtQty){
 			txtQty.resignFirstResponder()
-			GetDataForSave()
+			getDataForSave()
 		}
 		return true
 	}
 	
-	
-	// MARK: - Navigation
-	override func prepare(for segue: UIStoryboardSegue, sender: Any?){
-		/*
-		var destinationVC = segue.destination
-		if let navcon = destinationVC as? UINavigationController {
-		destinationVC = navcon.visibleViewController ?? destinationVC
-		}
-		if let newVC = destinationVC as? ProductsTableViewController {
-		
-		}
-		*/
-	}
 }

@@ -12,12 +12,21 @@ import CoreData
 
 final class PersistentManager {
 	
-	private init(){}
+	init(){}
 	
 	static var context: NSManagedObjectContext {
 		return persistentContainer.viewContext
 	}
 	
+//	public var context2: NSManagedObjectContext {
+//		let container = NSPersistentContainer(name: "Products")
+//		container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+//			if let error = error as NSError? {
+//				fatalError("Unresolved error \(error), \(error.userInfo)")
+//			}
+//		})
+//		   return container.viewContext
+//	   }
 	
 	static var persistentContainer: NSPersistentContainer = {
 		let container = NSPersistentContainer(name: "Products")
@@ -53,15 +62,18 @@ final class PersistentManager {
 		}
 	}
 	
-	static func save() {
+	static func save()->Bool {
 		if context.hasChanges {
 			do {
 				try context.save()
+				print("SAVED")
+				return true
 			} catch {
 				let nserror = error as NSError
 				fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
 			}
 		}
+		return false
 	}
 	
 	
@@ -79,6 +91,19 @@ final class PersistentManager {
 		} catch let error as NSError {
 			print("Failed to Delete: \(error)")
 			return nil
+		}
+	}
+	
+	static func deleteAllRecords<T: NSManagedObject>(_ objectType: T.Type){
+		let entityName = String(describing: objectType)
+		let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+		let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+		do {
+			try context.execute(deleteRequest)
+			try context.save()
+			print("All rows delete from \(entityName)")
+		} catch {
+			print ("There was an error")
 		}
 	}
 	
